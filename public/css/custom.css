@@ -1,0 +1,10 @@
+body {
+    font-family: 'Raleway', sans-serif;
+    padding-top: 100px;
+    color: #777;
+    background: #fcfcfc  url("../img/body-bg.png");
+}
+
+.img-responsive{
+    margin: 0 auto;
+}
