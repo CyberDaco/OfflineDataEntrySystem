@@ -173,7 +173,7 @@
         });
 
         //submit form onload
-        $('#frmLookup').submit();
+       // $('#frmLookup').submit();
 
         //search properties on suburb change
         $("select[name='locality']").change(function(){
