@@ -65,6 +65,7 @@
         //form validation
         //sample
         //two
+        //three
         $("#frmDataEntry").submit(function (e) {
             if ($("select[name='sale_type']").val() == 'Passed In' && $("input[name='sold_price']").val() != ''){
                 $("input[name='sold_price']").css('background-color','pink');
