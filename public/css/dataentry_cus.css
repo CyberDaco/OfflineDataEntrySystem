@@ -15,3 +15,9 @@ a:focus{
     background-color: #afeeee;
     color: #4b86b4;
 }
+
+td a {
+    display: block;
+    border: 1px solid black;
+    padding: 2px;
+}
