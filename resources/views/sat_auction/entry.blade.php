@@ -22,18 +22,14 @@
             </div>
             <form method="post" id="frmLookup" class="form-horizontal" action="/sat_auction/entry/lookup">
                 <div class="box-body">
-                    <div class="input-group input-group-sm">
-                            {!! Form::select('filter_state',\App\Publication::where('pub_name',session('batch_details')->job_name)->first()->state_code, session('last_record') ? session('last_record')->state : null , ['class'=>'form-control input-sm']) !!}
+                        {!! Form::select('filter_state',\App\Publication::where('pub_name',session('batch_details')->job_name)->first()->state_code, session('last_record') ? session('last_record')->state : null , ['class'=>'form-control input-sm']) !!}
 
                         @if (session('batch_details')->job_name == 'Real Estate View' )
                             {!! Form::select('locality', \App\Sat_Auction::select('suburb')->distinct()->pluck('suburb','suburb'), session('locality'), ['class'=>'form-control input-sm', 'required']) !!}
                         @else
                             {!! Form::select('locality', \App\HomePrice::select('suburb')->distinct()->pluck('suburb','suburb'), session('locality'), ['class'=>'form-control input-sm', 'required']) !!}
                         @endif
-                    <span class="input-group-btn">
                       <button type="submit" class="btn btn-info btn-flat">Search</button>
-                    </span>
-                    </div>
                 </div>
             </form>
             <div class="box-body table-responsive no-padding">
@@ -62,10 +58,6 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
-        //form validation
-        //sample
-        //two
-        //three
         $("#frmDataEntry").submit(function (e) {
             if ($("select[name='sale_type']").val() == 'Passed In' && $("input[name='sold_price']").val() != ''){
                 $("input[name='sold_price']").css('background-color','pink');
@@ -100,7 +92,6 @@
         });
 
 
-
         $("select[name='filter_state']").change(function(){
             var state = $(this).val();
 
@@ -116,9 +107,7 @@
                                 $("select[name='locality']").append('<option value="'+key+'">'+value+'</option>');
                             });
                             $("select[name='locality']").val('{{ session('locality') }}');
-
                             $('#frmLookup').submit();
-
                         }else{
                             $("select[name='locality']").empty();
                         }
