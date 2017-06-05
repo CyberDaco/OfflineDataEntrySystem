@@ -16,6 +16,10 @@ a:focus{
     color: #4b86b4;
 }
 
+td a:hover{
+    background-color: #afeeee;
+}
+
 td a {
     display: block;
     border: 1px solid black;
