@@ -1,5 +1,4 @@
 <div class="box-body">
-    {!! Form::token() !!}
     {!! Form::hidden('batch_name',session('batch_name'),['class'=>'form-control input-sm', 'required','readonly']) !!}
     {!! Form::hidden('status',$status,['class'=>'form-control input-sm', 'required','readonly']) !!}
 
