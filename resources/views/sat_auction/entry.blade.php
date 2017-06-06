@@ -22,7 +22,7 @@
             </div>
             <form method="post" id="frmLookup" class="form-horizontal" action="/sat_auction/entry/lookup">
                 <div class="box-body">
-                        {!! Form::select('filter_state',[substr(session('batch_name'),4,3) => substr(session('batch_name'),4,3)], substr(session('batch_name'),4,3) , ['class'=>'form-control input-sm']) !!}
+                        {!! Form::select('filter_state',[strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2) => strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2) ], strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2), ['class'=>'form-control input-sm']) !!}
 
                         @if (session('batch_details')->job_name == 'Real Estate View' )
                             {!! Form::select('locality', \App\Sat_Auction::select('suburb')->distinct()->pluck('suburb','suburb'), session('locality'), ['class'=>'form-control input-sm', 'required']) !!}
