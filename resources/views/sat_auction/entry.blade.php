@@ -129,18 +129,6 @@
 
         //search propertties form
         $("#frmLookup").submit(function (e) {
-            //$.ajaxSetup({
-            //    headers: {
-            //        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            //    }
-            //})
-            //e.preventDefault();
-
-            //var formData = {
-            //    suburb: $("select[name='locality']").val(),
-            //    filter_state: $("select[name='filter_state']").val()
-            //}
-
             e.preventDefault();
 
             var suburb = $("select[name='locality']").val();
@@ -150,8 +138,6 @@
             $.ajax({
                 type: 'GET',
                 url: "{{ url('/sat_auction/entry/lookup') }}?suburb="+ suburb + "&filter_state=" + filter_state,
-                //data: formData,
-                //dataType: 'json',
                 success: function (data) {
                     console.log(data);
                     $('#records-list > tr').remove();
