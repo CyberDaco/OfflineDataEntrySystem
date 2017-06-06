@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <img class="img-responsive thumbnail" src="/img/user.jpg" alt="User" height="100%">
-        <div class="col-sm-4 col-md-offset-4">
+        <div class="col-sm-4 col-sm-offset-4">
             <hr>
             <form role="form" method="POST" action="{{ url('/login') }}">
                 {{ csrf_field() }}
