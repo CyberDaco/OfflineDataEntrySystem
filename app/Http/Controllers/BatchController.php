@@ -19,7 +19,7 @@ use App\Application;
 class BatchController extends Controller
 {
     public function __construct(){
-        $this->middleware('admin',['except'=>'find']);
+        $this->middleware('admin',['except'=>array('find','find_sat_auction')]);
     }
     
     public function store(BatchRequest $request){
