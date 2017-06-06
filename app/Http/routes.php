@@ -270,7 +270,7 @@ Route::get('/recent_sales/search_post_code/{suburb}/{state}','RecentSaleControll
  * Saturday Auction Controller
  */
 Route::get('/sat_auction','SaturdayAuctionController@index');
-Route::post('/sat_auction', 'BatchController@find');
+Route::post('/sat_auction', 'BatchController@find_sat_auction');
 Route::get('/sat_auction/view', 'SaturdayAuctionController@view');
 Route::get('/sat_auction/entry', 'SaturdayAuctionController@entry');
 Route::post('/sat_auction/entry', 'SaturdayAuctionController@create');

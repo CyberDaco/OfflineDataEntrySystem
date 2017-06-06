@@ -162,6 +162,7 @@ class SaturdayAuctionController extends Controller
         } else {
             $suburbs = HomePrice::where('state',$request->state)
                 ->select('suburb')->distinct()->pluck("suburb","suburb");
+
         }
 
         return Response::json($suburbs);

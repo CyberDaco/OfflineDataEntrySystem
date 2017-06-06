@@ -63,6 +63,8 @@
         </div>
     </div>
 
+    <br><br>
+
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
             {!! Form::label('property_type','Property Type',['class'=>'control-label']) !!}
@@ -72,7 +74,6 @@
         </div>
     </div>
 
-    <br><br>
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
             {!! Form::label('sale_type','Sale Type',['class'=>'control-label']) !!}

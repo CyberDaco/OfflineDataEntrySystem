@@ -95,6 +95,8 @@
         $("select[name='filter_state']").change(function(){
             var state = $(this).val();
 
+            var batch = "{{ session('batch_name')}}";
+
             if(state){
                 $.ajax({
                     type:"GET",
@@ -104,8 +106,12 @@
                         if(res){
                             $("select[name='locality']").empty();
                             $.each(res,function(key,value){
-                                $("select[name='locality']").append('<option value="'+key+'">'+value+'</option>');
+                                if(key.charCodeAt(0) >= batch.charCodeAt(0) && key.charCodeAt(0) <= batch.charCodeAt(2)){
+                                    $("select[name='locality']").append('<option value="'+key+'">'+value+'</option>');
+                                }
                             });
+
+
                             $("select[name='locality']").val('{{ session('locality') }}');
                             $('#frmLookup').submit();
                         }else{
