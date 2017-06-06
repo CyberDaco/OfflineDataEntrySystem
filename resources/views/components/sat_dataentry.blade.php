@@ -38,7 +38,7 @@
                 <div class="form-group">
                     {!! Form::label('batch_name','Batch Name : ',['class'=>'control-label col-md-2']) !!}
                     <div class="col-md-4">
-                        {!! Form::text('batch_name', null, ['class'=>'form-control input-lg','pattern'=>'[A-Z]{1}[-][A-Z]{1}[_][QLDNSWTVICA]{2,3}[_][0-9]{2}', 'required']) !!}
+                        {!! Form::text('batch_name', null, ['class'=>'form-control input-lg','pattern'=>'[A-Z]{1}[-][A-Z]{1}[_][QLDNSWTVICA]{3}[_][0-9]{2}', 'required']) !!}
                     </div>
                 </div>
 
