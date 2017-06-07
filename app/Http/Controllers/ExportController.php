@@ -219,6 +219,8 @@ class ExportController extends Controller
                 'property_type','sale_type','sold_price',DB::raw('DATE_FORMAT(contract_date,"%d/%m/%Y") as contract_date'),
                 'settlement_date','agency_name','bedroom','bathroom' ,'car')
             ->where('batch_id',$batch->id)
+            ->orderBy('state', 'asc')
+            ->orderBy('suburb', 'asc')
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
