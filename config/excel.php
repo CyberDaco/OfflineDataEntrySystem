@@ -63,7 +63,7 @@ return array(
         'title'          => 'Spreadsheet',
         'description'    => 'Default spreadsheet export',
         'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
+        'keywords'       => 'excel, export',
         'category'       => 'Excel',
         'manager'        => 'Sunday Doctolero',
         'company'        => 'CCC Data Management Services Inc.',
@@ -126,7 +126,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'enclosure'   => '',
+        'enclosure'   => '"',
 
         /*
         |--------------------------------------------------------------------------
