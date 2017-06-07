@@ -200,6 +200,7 @@ class ExportController extends Controller
             ->where('batch_id',$batch->id)
             ->orderBy('state', 'asc')
             ->orderBy('suburb', 'asc')
+            ->orderBy('id','asc')
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
@@ -221,6 +222,7 @@ class ExportController extends Controller
             ->where('batch_id',$batch->id)
             ->orderBy('state', 'asc')
             ->orderBy('suburb', 'asc')
+            ->orderBy('id','asc')
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
