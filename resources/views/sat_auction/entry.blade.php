@@ -280,17 +280,17 @@ $(document).ready(function(){
             return $slug.toLowerCase();
         }
 
-        $("input[name='street_name']").blur(function() {
-            $address = $("select[name='state']").val() + ' ' + $("input[name='unit_no']").val() + ' ' + $("input[name='street_no']").val() + ' ' + $("input[name='street_name']").val() + ' ' + $("input[name='street_ext']").val();
-            $property = slug($address);
-            console.log($property);
-            $.get('/sat_auction/search_suburb/' + $property , function (data) {
-                console.log(data);
-                if (data.state){
-                    $('#suburbs').append('<option>'+data.suburb+'</option>');
-                }
-            })
-        });
+        //$("input[name='street_name']").blur(function() {
+          //  $address = $("select[name='state']").val() + ' ' + $("input[name='unit_no']").val() + ' ' + $("input[name='street_no']").val() + ' ' + $("input[name='street_name']").val() + ' ' + $("input[name='street_ext']").val();
+           // $property = slug($address);
+           // console.log($property);
+           // $.get('/sat_auction/search_suburb/' + $property , function (data) {
+           //     console.log(data);
+           //     if (data.state){
+           //         $('#suburbs').append('<option>'+data.suburb+'</option>');
+           //     }
+           // })
+       // });
 
         $("input[name='suburb']").blur(function(){
             $address = $("select[name='state']").val() + ' ' + $("input[name='unit_no']").val() + ' ' + $("input[name='street_no']").val() + ' ' + $("input[name='street_name']").val()+ ' ' + $("input[name='street_ext']").val() + ' ' + $("input[name='suburb']").val();
