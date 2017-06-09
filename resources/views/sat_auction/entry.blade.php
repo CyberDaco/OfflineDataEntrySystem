@@ -39,9 +39,6 @@
                             <th>State</th>
                             <th>Property</th>
                             <th>Suburb</th>
-                            <th>Type</th>
-                            <th>Agency Name</th>
-                            <th>Bed</th>
                         </tr>
                     </thead>
                     <tbody id="records-list">
@@ -150,10 +147,7 @@
                             }
                             report += value.street_no + ' ' + value.street_name ;
                             report += '</strong></a></td>';
-                            report += '<td>' + value.suburb + '</td>';
-                            report += '<td>' + value.property_type + '</td>';
-                            report += '<td>' + value.agency_name + '</td>';
-                            report += '<td>' + value.bedroom  + '</td></tr>';
+                            report += '<td>' + value.suburb + '</td></tr>';
                             $('#records-list').append(report);
                     });
                 },
