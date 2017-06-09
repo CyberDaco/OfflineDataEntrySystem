@@ -284,7 +284,6 @@ Route::get('/sat_auction/search_property/{address}','SaturdayAuctionController@s
 Route::get('/sat_auction/search_property_id/{id}','SaturdayAuctionController@search_property_id');
 Route::get('/sat_auction/search_suburb/{address}','SaturdayAuctionController@search_suburb');
 Route::get('/sat_auction/scrape/{page}','SaturdayAuctionController@scrape');
-Route::get('/sat_auction/entry/lookup','SaturdayAuctionController@lookup');
 Route::get('/sat_auction/entry/lookup','SaturdayAuctionController@ajax_lookup');
 Route::get('/sat_auction/api/get-suburbs-list','SaturdayAuctionController@suburbs_list');
 

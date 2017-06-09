@@ -122,12 +122,6 @@ class SaturdayAuctionController extends Controller
         return redirect()->back();
     }
 
-    //custom functions
-
-    //public function lookup(){
-    //  return Datatables::of(Sat_Auction::all())->make(true);
-    //}
-
     public function ajax_lookup(Request $request){
         if(session('batch_details')->job_name == 'Real Estate View'){
             $properties = Sat_Auction::where('state',$request->filter_state)
