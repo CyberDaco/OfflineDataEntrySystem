@@ -77,7 +77,7 @@ class SaturdayAuctionController extends Controller
         event(new EntryRecordCreated($this->current_batch,'E',session('batch_name'),$record->id,session('jobnumber')->id));
         flash()->info($record->address.' added successfully.');
         session()->put('last_record',$record);
-        return redirect()->back();
+        return view($this->folder.'/entry');
     }
 
     public function verify()
