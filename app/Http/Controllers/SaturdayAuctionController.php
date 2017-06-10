@@ -136,7 +136,7 @@ class SaturdayAuctionController extends Controller
         }
 
         return Response::json($properties)
-                        ->header('Cache-control', 'public, max-age=1000');
+                        ->header('Cache-control', 'public, max-age=60');
     }
 
 

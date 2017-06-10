@@ -26,7 +26,6 @@
         <div class="col-sm-2 col-md-2">
             {!! Form::text('street_no',null,['class'=>'form-control input-sm', 'pattern'=>'[0-9aA-zZ\-.]{1,25}', 'required']) !!}
         </div>
-            {!! Form::text('street_no_suffix',null,['class'=>'form-control input-sm','pattern'=>'[aA-zZ]{1}']) !!}
     </div>
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
