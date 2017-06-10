@@ -156,9 +156,11 @@ class SaturdayAuctionController extends Controller
     public function suburbs_list(Request $request){
         if(session('batch_details')->job_name == 'Real Estate View') {
             $suburbs = Sat_Auction::where('state',$request->state)
+                ->orderBy('suburb')
                 ->select('suburb')->distinct()->pluck("suburb","suburb");
         } else {
             $suburbs = HomePrice::where('state',$request->state)
+                ->orderBy('suburb')
                 ->select('suburb')->distinct()->pluck("suburb","suburb");
         }
         return Response::json($suburbs)
