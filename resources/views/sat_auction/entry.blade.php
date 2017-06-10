@@ -183,7 +183,6 @@
         $('#search_modal').modal('hide');
 
         $property = slug;
-
             $.get('/sat_auction/search_property_id/' + $property , function (data) {
             if (data.state){
                 $("input[name='state']").val(data.state).css('background-color',data.color);

@@ -135,7 +135,8 @@ class SaturdayAuctionController extends Controller
                         ->get();
         }
 
-        return Response::json($properties);
+        return Response::json($properties)
+                        ->header('Cache-control', 'public, max-age=1000');
     }
 
 
@@ -158,7 +159,6 @@ class SaturdayAuctionController extends Controller
         } else {
             $suburbs = HomePrice::where('state',$request->state)
                 ->select('suburb')->distinct()->pluck("suburb","suburb");
-
         }
 
         return Response::json($suburbs);

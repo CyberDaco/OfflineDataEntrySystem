@@ -26,11 +26,7 @@
         <div class="col-sm-2 col-md-2">
             {!! Form::text('street_no',null,['class'=>'form-control input-sm', 'pattern'=>'[0-9aA-zZ\-.]{1,25}', 'required']) !!}
         </div>
-        <!--
-        <div class="col-sm-1 col-md-1">
             {!! Form::text('street_no_suffix',null,['class'=>'form-control input-sm','pattern'=>'[aA-zZ]{1}']) !!}
-        </div>
-        -->
     </div>
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
@@ -69,7 +65,7 @@
             {!! Form::label('property_type','Property Type',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-4 col-md-3">
-            {!! Form::select('property_type',['HO'=>'HOUSE','CO'=>'COMMERCIAL','FA'=>'FARM','FL'=>'FLAT','LA'=>'LAND','UN'=>'UNIT','UN 70'=>'TOWNHOUSE'],null,['class'=>'form-control input-sm', 'required']) !!}
+            {!! Form::select('property_type',['HO'=>'HOUSE','CO'=>'COMMERCIAL','FA'=>'FARM','FL'=>'FLAT','LA'=>'LAND','UN'=>'UNIT'],null,['class'=>'form-control input-sm', 'required']) !!}
         </div>
     </div>
 
