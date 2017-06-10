@@ -24,6 +24,7 @@ class SatAuctionRequest extends Request
     public function rules()
     {
         return [
+            'state'=>'exists:states,code',
             'unit_no' => 'min:1',
             'street_no' => 'required',
             'street_no_suffix' => 'max:1|alpha',
@@ -36,7 +37,7 @@ class SatAuctionRequest extends Request
             'property_type'=>'required',
             'post_code' => 'required',
             'contract_date' => 'required|date_format:d/m/Y',
-            'agency_name' => 'required',
+            'agency_name' => 'min:2|required',
             'bedroom' => 'max:2',
             'bathroom' => 'max:2',
             'car' => 'max:2',

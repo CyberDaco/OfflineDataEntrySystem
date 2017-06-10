@@ -18,20 +18,13 @@
     <div class="col-md-6">
         <div class="box box-info">
             <div class="box-header with-border">
-                <h3 class="box-title">Property Search State: {{ session('last_record') ? session('last_record')->state : '' }}</h3>
+                <h3 class="box-title">Lookup</h3>
             </div>
-            <form method="post" id="frmLookup" class="form-horizontal" action="/sat_auction/entry/lookup">
                 <div class="box-body">
                         {!! Form::select('filter_state',[strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2) => strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2) ], strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2), ['class'=>'form-control input-sm']) !!}
-
-                        @if (session('batch_details')->job_name == 'Real Estate View' )
-                            {!! Form::select('locality', \App\Sat_Auction::select('suburb')->distinct()->pluck('suburb','suburb'), session('locality'), ['class'=>'form-control input-sm', 'required']) !!}
-                        @else
-                            {!! Form::select('locality', \App\HomePrice::select('suburb')->distinct()->pluck('suburb','suburb'), session('locality'), ['class'=>'form-control input-sm', 'required']) !!}
-                        @endif
-                      <button type="submit" class="btn btn-info btn-flat">Search</button>
+                        <select name="locality" class="form-control input-sm " required></select>
                 </div>
-            </form>
+
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
                     <thead>
@@ -55,6 +48,52 @@
 @push('scripts')
 <script>
     $(document).ready(function() {
+
+        //show modal on load if no errors
+        @if($errors->any())
+
+        @else
+            $('#search_modal').modal('show');
+        @endif
+
+            //load suburb
+        $("select[name='filter_state']").change(function(){
+            var state = $(this).val();
+            var batch = "{{ session('batch_name')}}";
+
+            if(state){
+                $.ajax({
+                    type:"GET",
+                    url:"{{url('/sat_auction/api/get-suburbs-list')}}?state=" + state,
+                    success:function(res){
+                        console.log(res);
+                        if(res){
+                            $("select[name='locality']").empty();
+                            $.each(res,function(key,value){
+                                if(key.charCodeAt(0) >= batch.charCodeAt(0) && key.charCodeAt(0) <= batch.charCodeAt(2)){
+                                    $("select[name='locality']").append('<option value="'+key+'">'+value+'</option>');
+                                }
+                            });
+
+                            $("select[name='locality']").val('{{ session('locality') }}');
+                            $("select[name='locality']").change();
+                        }else{
+                            $("select[name='locality']").empty();
+                        }
+                    }
+                });
+            }else{
+                $("select[name='locality']").empty();
+            }
+        });
+
+        $("select[name='filter_state']").change();
+
+
+        //set locality on load focus
+        $("select[name='locality']").focus();
+
+        //form validation
         $("#frmDataEntry").submit(function (e) {
             if ($("select[name='sale_type']").val() == 'Passed In' && $("input[name='sold_price']").val() != ''){
                 $("input[name='sold_price']").css('background-color','pink');
@@ -88,49 +127,11 @@
             return true;
         });
 
-
-        $("select[name='filter_state']").change(function(){
-            var state = $(this).val();
-
-            var batch = "{{ session('batch_name')}}";
-
-            if(state){
-                $.ajax({
-                    type:"GET",
-                    url:"{{url('/sat_auction/api/get-suburbs-list')}}?state=" + state,
-                    success:function(res){
-                        console.log(res);
-                        if(res){
-                            $("select[name='locality']").empty();
-                            $.each(res,function(key,value){
-                                if(key.charCodeAt(0) >= batch.charCodeAt(0) && key.charCodeAt(0) <= batch.charCodeAt(2)){
-                                    $("select[name='locality']").append('<option value="'+key+'">'+value+'</option>');
-                                }
-                            });
-
-
-                            $("select[name='locality']").val('{{ session('locality') }}');
-                            $('#frmLookup').submit();
-                        }else{
-                            $("select[name='locality']").empty();
-                        }
-                    }
-                });
-            }else{
-                $("select[name='locality']").empty();
-            }
-        });
-
-
-        $("select[name='filter_state']").change();
-
-        //search propertties form
-        $("#frmLookup").submit(function (e) {
-            e.preventDefault();
+        //search properties on suburb change
+        $("select[name='locality']").change(function(){
 
             var suburb = $("select[name='locality']").val();
             var filter_state = $("select[name='filter_state']").val();
-
 
             $.ajax({
                 type: 'GET',
@@ -140,15 +141,15 @@
                     $('#records-list > tr').remove();
                     $.each(data, function (index, value) {
                         var report = '<tr><td>' + value.state +'</td>';
-                            report += "<td><a href='#' onClick='generate(" + value.id +  ")'><strong>";
-                            report += value.unit_no;
-                            if (value.unit_no != ''){
-                                report += '/';
-                            }
-                            report += value.street_no + ' ' + value.street_name ;
-                            report += '</strong></a></td>';
-                            report += '<td>' + value.suburb + '</td></tr>';
-                            $('#records-list').append(report);
+                        report += "<td><a href='#' onClick='generate(" + value.id +  ")'><strong>";
+                        report += value.unit_no;
+                        if (value.unit_no != ''){
+                            report += '/';
+                        }
+                        report += value.street_no + ' ' + value.street_name ;
+                        report += '</strong></a></td>';
+                        report += '<td>' + value.suburb + '</td></tr>';
+                        $('#records-list').append(report);
                     });
                 },
                 error: function (data) {
@@ -158,28 +159,34 @@
             });
         });
 
-        //submit form onload
-       // $('#frmLookup').submit();
-
-        //search properties on suburb change
-        $("select[name='locality']").change(function(){
-            $('#frmLookup').submit();
+        //post code search
+        $("input[name='suburb']").blur(function(){
+            $.get('/sat_auction/search_post_code/' + $("input[name='suburb']").val() + '/' + $("input[name='state']").val() , function (data) {
+                //console.log(data);
+                if (data.post_code){
+                    $("input[name='post_code']").val(data.post_code);
+                } else {
+                    $("input[name='post_code']").val("");
+                }
+            })
         });
+
+        //focuses on unit in modal unload event
+        $('#search_modal').on('hide.bs.modal', function () {
+            $("input[name='unit_no']").focus();
+        });
+
     });
 
     function generate(slug)
     {
         $('#search_modal').modal('hide');
-        //$property = $(this).data('id');
+
         $property = slug;
 
-        console.log($property);
-        //$.get('/sat_auction/search_property/' + $property , function (data) {
             $.get('/sat_auction/search_property_id/' + $property , function (data) {
-            console.log(data);
             if (data.state){
-
-                $("select[name='state']").val(data.state.toUpperCase()).css('background-color',data.color);
+                $("input[name='state']").val(data.state).css('background-color',data.color);
                 $("input[name='unit_no']").val(data.unit_no).css('background-color',data.color);
                 $("input[name='street_no']").val(data.street_no).css('background-color',data.color);
                 $("input[name='street_name']").val(data.street_name).css('background-color',data.color);
@@ -187,7 +194,6 @@
                 $("input[name='street_direction']").val(data.street_direction).css('background-color',data.color);
                 $("input[name='suburb']").val(data.suburb).css('background-color',data.color);
                 $("input[name='post_code']").val(data.post_code).css('background-color',data.color);
-
                 $("input[name='agency_name']").val(data.agency_name).css('background-color',data.color);
                 $("select[name='property_type']").val(data.property_type).css('background-color',data.color);
                 $("select[name='sale_type']").val(data.sale_type).css('background-color',data.color);
@@ -195,7 +201,6 @@
                 $("input[name='bedroom']").val(data.bedroom).css('background-color',data.color);
                 $("input[name='bathroom']").val(data.bathroom).css('background-color',data.color);
                 $("input[name='car']").val(data.car).css('background-color',data.color);
-
 
                 if(data.contract_date != ''){
                     var original_date = data.contract_date;
@@ -206,7 +211,6 @@
                 $("select[name='sale_type']").focus();
 
             } else {
-                //alert(data.message);
                 $("input[name='agency_name']").val('').prop('readonly',false).css('background-color','#ffe6f3');
                 $("input[name='bedroom']").val('').prop('readonly',false).css('background-color','#ffe6f3');;
                 $("input[name='sold_price']").val('').prop('readonly',false).css('background-color','#ffe6f3');
@@ -219,110 +223,6 @@
             }
         })
     }
-
-$(document).ready(function(){
-    //show modal on load
-
-    @if($errors->any())
-
-    @else
-        $('#search_modal').modal('show');
-    @endif
-
-
-
-
-    //set locality on load focus
-    $("select[name='locality']").focus();
-
-    //post code search
-    $("input[name='suburb']").blur(function(){
-        $.get('/sat_auction/search_post_code/' + $("input[name='suburb']").val() + '/' + $("select[name='state']").val() , function (data) {
-            console.log(data);
-            if (data.post_code){
-                $("input[name='post_code']").val(data.post_code);
-            } else {
-                $("input[name='post_code']").val("");
-            }
-        })
-    });
-
-    //set default state
-    @if(session('last_record'))
-        $("select[name='state']").val('{{ session('last_record')->state }}').change();
-    @endif
-
-
-    $('#search_modal').on('hide.bs.modal', function () {
-        $("input[name='unit_no']").focus();
-    });
-
-
-
-});
-</script>
-
-<script>
-    $(document).ready(function(){
-        //search property throug manual input
-        var slug = function(str) {
-            var $slug = '';
-            var trimmed = $.trim(str);
-            $slug = trimmed.replace(/[^a-z0-9-]/gi, '-').
-                    replace(/-+/g, '-').
-                    replace(/^-|-$/g, '');
-            return $slug.toLowerCase();
-        }
-
-        //$("input[name='street_name']").blur(function() {
-          //  $address = $("select[name='state']").val() + ' ' + $("input[name='unit_no']").val() + ' ' + $("input[name='street_no']").val() + ' ' + $("input[name='street_name']").val() + ' ' + $("input[name='street_ext']").val();
-           // $property = slug($address);
-           // console.log($property);
-           // $.get('/sat_auction/search_suburb/' + $property , function (data) {
-           //     console.log(data);
-           //     if (data.state){
-           //         $('#suburbs').append('<option>'+data.suburb+'</option>');
-           //     }
-           // })
-       // });
-
-        $("input[name='suburb']").blur(function(){
-            $address = $("select[name='state']").val() + ' ' + $("input[name='unit_no']").val() + ' ' + $("input[name='street_no']").val() + ' ' + $("input[name='street_name']").val()+ ' ' + $("input[name='street_ext']").val() + ' ' + $("input[name='suburb']").val();
-            $property = slug($address);
-            $.get('/sat_auction/search_property/' + $property , function (data) {
-                console.log(data);
-                if (data.state){
-                    $("input[name='agency_name']").val(data.agency_name).css('background-color',data.color);
-                    $("select[name='property_type']").val(data.property_type).css('background-color',data.color);
-                    $("select[name='sale_type']").val(data.sale_type).css('background-color',data.color);
-                    $("input[name='sold_price']").val(data.sold_price).css('background-color',data.color);
-                    $("input[name='bedroom']").val(data.bedroom).css('background-color',data.color);
-                    $("input[name='bathroom']").val(data.bathroom).css('background-color',data.color);
-                    $("input[name='car']").val(data.car).css('background-color',data.color);
-
-                    if(data.contract_date != ''){
-                        var original_date = data.contract_date;
-                        contract_date = original_date.split("-").reverse().join("/");
-                        $("input[name='contract_date']").val(contract_date).css('background-color',data.color);
-                    }
-
-                    $("select[name='sale_type']").focus();
-
-                } else {
-                    //alert(data.message);
-                    $("input[name='agency_name']").val('').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("input[name='bedroom']").val('').prop('readonly',false).css('background-color','#ffe6f3');;
-                    $("input[name='sold_price']").val('').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("input[name='contract_date']").val('').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("select[name='sale_type']").val('Sold At Auction').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("input[name='bathroom']").val('').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("input[name='car']").val('').prop('readonly',false).css('background-color','#ffe6f3');
-                    $("select[name='property_type']").val('HO').prop('readonly',false).css('background-color','#ffe6f3');
-
-                }
-            })
-        });
-    });
 </script>
 @endpush
 

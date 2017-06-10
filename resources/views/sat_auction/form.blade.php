@@ -7,7 +7,7 @@
             {!! Form::label('state','State  ',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-2 col-md-2">
-            {!! Form::select('state',\App\Publication::where('pub_name',session('batch_details')->job_name)->first()->state_code,null, ['class'=>'form-control input-sm']) !!}
+            {!! Form::text('state',strlen(session('batch_name')) == 10 ? substr(session('batch_name'),4,3) : substr(session('batch_name'),4,2),['class'=>'form-control input-sm','readonly']) !!}
         </div>
     </div>
 
@@ -108,7 +108,7 @@
             {!! Form::label('agency_name','Agency Name',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-5 col-md-4">
-            {!! Form::text('agency_name',null,['class'=>'form-control input-sm', 'pattern'=>'{2,200}', 'list'=>'agency','required']) !!}
+            {!! Form::text('agency_name',null,['class'=>'form-control input-sm', 'list'=>'agency','required']) !!}
         </div>
     </div>
 
