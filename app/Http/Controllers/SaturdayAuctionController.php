@@ -143,7 +143,8 @@ class SaturdayAuctionController extends Controller
 
     public function search_postcode($suburb,$state){
         $post_code = AUPostCode::where('suburb',$suburb)->where('state',$state)->first();
-        return Response::json($post_code);
+        return Response::json($post_code)
+            ->header('Cache-control', 'public, max-age=480');
     }
 
     public function search_suburb($address){
@@ -160,8 +161,8 @@ class SaturdayAuctionController extends Controller
             $suburbs = HomePrice::where('state',$request->state)
                 ->select('suburb')->distinct()->pluck("suburb","suburb");
         }
-
-        return Response::json($suburbs);
+        return Response::json($suburbs)
+                ->header('Cache-control', 'public, max-age=300');
     }
 
     /** Manual Search
