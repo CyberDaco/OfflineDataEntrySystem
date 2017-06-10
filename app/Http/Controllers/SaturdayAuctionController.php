@@ -139,8 +139,6 @@ class SaturdayAuctionController extends Controller
                         ->header('Cache-control', 'public, max-age=60');
     }
 
-
-
     public function search_postcode($suburb,$state){
         $post_code = AUPostCode::where('suburb',$suburb)->where('state',$state)->first();
         return Response::json($post_code)
