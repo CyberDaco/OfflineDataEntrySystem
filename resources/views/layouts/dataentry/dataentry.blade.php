@@ -84,8 +84,7 @@
 <script src="/bower_components/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/bower_components/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
-
-    @stack('scripts')
+@stack('scripts')
 
 <script>
     var $jqDate = jQuery('input.aussie_date[type=text]');
@@ -108,6 +107,8 @@
     });
 
 </script>
+
+
 <script>
     $(document).ready(function() {
         //Datemask dd/mm/yyyy
