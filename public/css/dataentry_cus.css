@@ -25,3 +25,42 @@ td a {
     border: 1px solid black;
     padding: 2px;
 }
+
+@media only screen and (max-width:800px){
+    td:nth-child(5){
+        display:none;
+    }
+    td:nth-child(6){
+        display:none;
+    }
+    td:nth-child(7){
+        display:none;
+    }
+    td:nth-child(8){
+        display:none;
+    }
+    td:nth-child(9){
+        display:none;
+    }
+    td:nth-child(10){
+        display:none;
+    }
+    th:nth-child(5){
+        display:none;
+    }
+    th:nth-child(6){
+        display:none;
+    }
+    th:nth-child(7){
+        display:none;
+    }
+    th:nth-child(8){
+        display:none;
+    }
+    th:nth-child(9){
+        display:none;
+    }
+    th:nth-child(10){
+        display:none;
+    }
+}
