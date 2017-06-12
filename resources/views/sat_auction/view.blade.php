@@ -10,10 +10,10 @@
 
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+              <input tabindex="-1" type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
               <div class="input-group-btn">
-                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                <button tabindex="-1" type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
               </div>
             </div>
           </div>
@@ -24,10 +24,10 @@
             <tr>
               <th>State</th>
               <th>Property Address</th>
-              <th>Property Type</th>
+              <th>Type</th>
               <th>Sale Type</th>
-              <th class="text-right">Sold Price</th>
-              <th class="text-center">Contract Date</th>
+              <th class="text-right">Price</th>
+              <th class="text-center">Date</th>
               <th>Agency Name</th>
               <th>Bed</th>
               <th>Bath</th>
@@ -37,7 +37,7 @@
             @foreach ($results->recent_sales as $result)
               <tr>
                 <td>{{ $result->state }}</td>
-                <td><a><strong>{{ $result->address }}</strong></a></td>
+                <td><a href="{{ url('/sat_auction/modify/'.$result->id) }}"><strong>{{ $result->address }}</strong></a></td>
                 <td>{{ $result->property_type }}</td>
                 <td>{{ $result->sale_type }}</td>
                 <td class="text-right">{{ $result->sold_price }}</td>
@@ -47,8 +47,8 @@
                 <td>{{ $result->bathroom }}</td>
                 <td>{{ $result->car }}</td>
                 <td class="text-center">
-                  <a href="{{ url('/sat_auction/modify/'.$result->id) }}" class="btn btn-info btn-xs">Modify</a></button>
-                  <a class="btn btn-danger btn-xs delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $result->id }}">Delete</a>
+                  <a tabindex="-1" href="{{ url('/sat_auction/modify/'.$result->id) }}" class="btn btn-info btn-xs">Modify</a></button>
+                  <a tabindex="-1" class="btn btn-danger btn-xs delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $result->id }}">Delete</a>
                 </td>
               </tr>
             @endforeach
