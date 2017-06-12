@@ -84,10 +84,25 @@ class AdminController extends Controller
         return view('admin.export.recent_sales',compact('results','default_date'));
     }
 
-    public function showsatauctionexport(){
-        $results = null;
-        $default_date = Carbon::now()->format('d/m/Y');
-        return view('admin.export.sat_auction',compact('results','default_date'));
+    public function export_saturday_auction(Request $request){
+        $job_date = $request->job_date ? Carbon::createFromFormat('d/m/Y', $request->job_date) : Carbon::now();
+        $job_name = $request->job_name ? $request->job_name : Publication::where('application','Saturday Auction')->first()->pub_name;
+
+        $batch = Batch::where('job_name',$job_name)
+                ->where('batch_date',$job_date->format('Y-m-d'))
+                ->get()->first();
+
+        if($batch){
+            $results = $batch->recent_sales()
+                ->select('batch_id','batch_name', \DB::raw('COUNT(batch_name) as records'))
+                ->groupBy('batch_name')
+                ->orderBy('batch_name')
+                ->get();
+        } else {
+            $results = null;
+        }
+
+        return view('/admin/export/sat_auction',compact('results','job_date','job_name','batch'));
     }
 
     public function showreanzexport(){

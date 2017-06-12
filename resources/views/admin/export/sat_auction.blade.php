@@ -9,19 +9,18 @@
       </div>
       <div class="box-body">
         <div class="row">
-          <form method="post">
-            {{ csrf_field() }}
+          <form method="GET">
             <div class="col-md-1">
               <label for="job_name" class="control-label">Job Name</label>
             </div>
             <div class="col-md-2">
-              {!! Form::select('job_name', \App\Publication::where('application','Saturday Auction')->pluck('pub_name','pub_name'), null, ['class'=>'form-control','required']) !!}
+              {!! Form::select('job_name', \App\Publication::where('application','Saturday Auction')->pluck('pub_name','pub_name'), $job_name, ['class'=>'form-control','required']) !!}
             </div>
             <div class="col-md-1">
               <label for="job_name" class="control-label">Batch Date</label>
             </div>
             <div class="col-md-2">
-              {!! Form::text('job_date',null,['class'=>'form-control aussie_date', 'required']) !!}
+              {!! Form::text('job_date',$job_date->format('d/m/Y'),['class'=>'form-control aussie_date', 'autofocus', 'required']) !!}
             </div>
             <div class="col-md-2">
               <button type="submit" class="btn btn-primary">View Batches</button>

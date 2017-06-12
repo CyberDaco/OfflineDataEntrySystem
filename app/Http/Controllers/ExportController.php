@@ -184,6 +184,7 @@ class ExportController extends Controller
 
             $default_date = $request->job_date;
             return view('/admin/export/sat_auction',compact('results','default_date','batch'));
+            //return view('admin.export.sat_auction',compact('results','default_date'));
 
         } else {
             flash()->info('No Record Found!!');

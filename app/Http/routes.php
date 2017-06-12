@@ -34,14 +34,6 @@ Route::get('/admin/batch/reanz','AdminController@showreanz');
 Route::get('/admin/batch/sat_auction','AdminController@showsatauction');
 
 
-
-Route::get('/admin/report/production','AdminController@showproduction');
-Route::get('/admin/export/interest','AdminController@showinterestexport');
-Route::get('/admin/export/recent_sales','AdminController@showrecentsalesexport');
-Route::get('/admin/export/sat_auction','AdminController@showsatauctionexport');
-Route::get('/admin/export/reanz','AdminController@showreanzexport');
-
-
 /**
  * Invalid
  * */
@@ -152,10 +144,6 @@ Route::post('/admin/export/recent_sales','ExportController@show_recentsales');
 Route::get('/admin/export/recent_sales/{batch}','ExportController@export_recentsales_csv');
 Route::get('/admin/export/recent_sales/{batch}/excel','ExportController@export_recent_sales_excel');
 
-Route::post('/admin/export/sat_auction','ExportController@show_sat_auction');
-Route::get('/admin/export/sat_auction/{batch}','ExportController@export_sat_auction_csv');
-Route::get('/admin/export/sat_auction/{batch}/excel','ExportController@export_sat_auction_excel');
-
 Route::post('/admin/export/reanz','ExportController@show_reanz');
 Route::get('/admin/export/reanz/{batch}','ExportController@export_reanz_csv');
 Route::get('/admin/export/reanz/{batch}/excel','ExportController@export_reanz_excel');
@@ -169,6 +157,15 @@ Route::get('/admin/export/invalid/{batch}','ExportController@export_invalid');
 Route::get('/admin/export/stats','ExportController@show_stats');
 Route::post('/admin/export/stats','ExportController@get_stats');
 Route::get('/admin/export/stats_output','ExportController@export_stats');
+
+Route::get('/admin/export/sat_auction/{batch}','ExportController@export_sat_auction_csv');
+Route::get('/admin/export/sat_auction/{batch}/excel','ExportController@export_sat_auction_excel');
+
+Route::get('/admin/report/production','AdminController@showproduction');
+Route::get('/admin/export/interest','AdminController@showinterestexport');
+Route::get('/admin/export/recent_sales','AdminController@showrecentsalesexport');
+Route::get('/admin/export/sat_auction','AdminController@export_saturday_auction');
+Route::get('/admin/export/reanz','AdminController@showreanzexport');
 
 
 /**
