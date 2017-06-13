@@ -25,21 +25,6 @@
             </li>
 
             <li class="treeview">
-                <a href="#"><i class="fa fa-users"></i> <span>Reports</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{{ url('/admin/report/production') }}">Production Report</a></li>
-                    <li><a href="{{ url('/news/pubexport') }}">Publication Exports</a></li>
-                    <li><a href="{{ url('/news/perpublication') }}">Per Publication</a></li>
-                    <li><a href="{{ url('/news/recsperhr') }}">Records Per Hour</a></li>
-                    <li><a href="{{ url('/news/costanalysis') }}">Cost Analysis</a></li>
-                </ul>
-            </li>
-
-            <li class="treeview">
                 <a href="#"><i class="fa fa-file-text"></i> <span>Exports</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -50,10 +35,28 @@
                     <li class="{{ setActive('admin/export/')}}"><a href="{{ url('/admin/export/recent_sales') }}">Recent Sales</a></li>
                     <li class="{{ setActive('admin/export/')}}"><a href="{{ url('/admin/export/sat_auction') }}">Saturday Auction</a></li>
                     <li class="{{ setActive('admin/export/')}}"><a href="{{ url('/admin/export/reanz') }}">REA NZ Keying</a></li>
-                    <li><a href="{{ url('/admin/export/aunews') }}">Australian Newspapers</a></li>
-                    <li><a href="{{ url('/admin/export/stats') }}">EP90 Stats Data</a></li>
+                    <li class="{{ setActive('admin/export/')}}"><a href="{{ url('/admin/export/aunews') }}">Australian Newspapers</a></li>
+
                 </ul>
             </li>
+
+            <li class="treeview">
+                <a href="#"><i class="fa fa-users"></i> <span>Reports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('/admin/export/stats') }}">EP90 Stats Data</a></li>
+                    <li><a href="{{ url('/admin/report/production') }}">Production Report</a></li>
+                    <li><a href="{{ url('/news/pubexport') }}">Publication Exports</a></li>
+                    <li><a href="{{ url('/news/perpublication') }}">Per Publication</a></li>
+                    <li><a href="{{ url('/news/recsperhr') }}">Records Per Hour</a></li>
+                    <li><a href="{{ url('/news/costanalysis') }}">Cost Analysis</a></li>
+                </ul>
+            </li>
+
+
 
             <li class="treeview">
                 <a href="#"><i class="fa fa-clock-o"></i> <span>Setup</span>

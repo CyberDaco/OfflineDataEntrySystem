@@ -34,30 +34,7 @@ class ExportController extends Controller
         $this->middleware('admin');
     }
 
-    public function show_interest(Request $request){
-            if($request->job_date){
-                $job_date = Carbon::createFromFormat('d/m/Y', $request->job_date);
-            }
-            $batch = Batch::where('job_name','Interest Auction Results')
-                            ->where('batch_date',$job_date->format('Y-m-d'))
-                            ->get()->first();
-            if($batch){
-                $results = $batch->interests()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('batch_name')
-                ->get();
-        
-                $default_date = $request->job_date;
-                return view('/admin/export/interest',compact('results','default_date','batch'));
-                
-            } else {
-                flash()->info('No Record Found!!');
-                return redirect()->back()->withInput();
-            }    
-    }
-    
-    public function export_interest_csv(Batch $batch){
+    public function export_interest(Batch $batch, $file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('recent_sales')
             ->select('unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
@@ -73,55 +50,10 @@ class ExportController extends Controller
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A1',false,false);
             });
-        })->export('csv');
+        })->export($file_type);
     }
 
-    public function export_interest_excel(Batch $batch){
-        DB::connection()->setFetchMode(PDO::FETCH_NUM);
-        $data = DB::table('recent_sales')
-            ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
-                'property_type','sale_type','sold_price',DB::raw('DATE_FORMAT(contract_date,"%d/%m/%Y") as contract_date'),
-                'settlement_date','agency_name','bedroom','bathroom' ,'car')
-            ->where('batch_id',$batch->id)
-            ->get();
-        DB::connection()->setFetchMode(PDO::FETCH_CLASS);
-
-        $filename = $batch->job_name.' '.$batch->batch_date;
-
-        Excel::create($filename, function($excel) use($data) {
-            $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,null,'A1',false,false);
-            });
-        })->export('xlsx');
-    }
-
-    public function show_recentsales(Request $request){
-
-        if($request->job_date){
-            $job_date = Carbon::createFromFormat('d/m/Y', $request->job_date);
-        }
-        $batch = Batch::where('job_name',$request->job_name)
-            ->where('batch_date',$job_date->format('Y-m-d'))
-            ->get()->first();
-
-
-        if($batch){
-            $results = $batch->recent_sales()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('batch_name')
-                ->get();
-
-            $default_date = $request->job_date;
-            return view('/admin/export/recent_sales',compact('results','default_date','batch'));
-
-        } else {
-            flash()->info('No Record Found!!');
-            return redirect()->back()->withInput();
-        }
-    }
-
-    public function export_recentsales_csv(Batch $batch){
+    public function export_recent_sales(Batch $batch, $file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('recent_sales')
             ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
@@ -143,29 +75,10 @@ class ExportController extends Controller
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A1',false,false);
             });
-        })->export('csv');
+        })->export($file_type);
     }
 
-    public function export_recentsales_excel(Batch $batch){
-        DB::connection()->setFetchMode(PDO::FETCH_NUM);
-        $data = DB::table('recent_sales')
-            ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
-                'property_type','sale_type','sold_price',DB::raw('DATE_FORMAT(contract_date,"%d/%m/%Y") as contract_date'),
-                'settlement_date','agency_name','bedroom','bathroom' ,'car')
-            ->where('batch_id',$batch->id)
-            ->get();
-        DB::connection()->setFetchMode(PDO::FETCH_CLASS);
-
-        $filename = $batch->job_name.' '.$batch->batch_date;
-
-        Excel::create($filename, function($excel) use($data) {
-            $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,null,'A1',false,false);
-            });
-        })->export('xlsx');
-    }
-
-    public function export_sat_auction_csv(Batch $batch,$file_type){
+    public function export_sat_auction(Batch $batch,$file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('recent_sales')
             ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
@@ -187,77 +100,7 @@ class ExportController extends Controller
         })->export($file_type);
     }
 
-    public function export_sat_auction_excel(Batch $batch){
-        DB::connection()->setFetchMode(PDO::FETCH_NUM);
-        $data = DB::table('recent_sales')
-            ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
-                'property_type','sale_type','sold_price',DB::raw('DATE_FORMAT(contract_date,"%d/%m/%Y") as contract_date'),
-                'settlement_date','agency_name','bedroom','bathroom' ,'car')
-            ->where('batch_id',$batch->id)
-            ->orderBy('state', 'asc')
-            ->orderBy('suburb', 'asc')
-            ->orderBy('id','asc')
-            ->get();
-        DB::connection()->setFetchMode(PDO::FETCH_CLASS);
-
-        $filename = $batch->job_name.' '.$batch->batch_date;
-
-        Excel::create($filename, function($excel) use($data) {
-            $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,"'",'A1',false,false);
-            });
-        })->export('xlsx');
-    }
-
-    public function show_reanz(Request $request){
-
-        if($request->job_date){
-            $job_date = Carbon::createFromFormat('d/m/Y', $request->job_date);
-        }
-        $batch = Batch::where('job_name',$request->job_name)
-            ->where('batch_date',$job_date->format('Y-m-d'))
-            ->get()->first();
-
-
-        if($batch){
-            $results = $batch->reanzs()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('batch_name')
-                ->get();
-
-            $default_date = $request->job_date;
-            return view('/admin/export/reanz',compact('results','default_date','batch'));
-
-        } else {
-            flash()->info('No Record Found!!');
-            return redirect()->back()->withInput();
-        }
-    }
-
-    public function export_reanz_csv(Batch $batch){
-        DB::connection()->setFetchMode(PDO::FETCH_NUM);
-        $data = DB::table('reanzs')
-            ->select('listing_id','property_id','scrape_date',DB::raw('DATE_FORMAT(list_date,"%d/%m/%Y") as list_date'),'url','site_area','property_address','unit_no','st_no_pref',
-                'street_no','street_name','street_type','quadrant','suburb','city','price_guide','bedrooms',
-                'bathrooms','car_spaces','sale_method','auction_day',DB::raw('DATE_FORMAT(auction_date,"%d/%m/%Y") as auction_date'),'auction_time','land_size',
-                'floor_size','agency_name','agency_id','first_agent_name','first_agent_id','first_agent_mobile',
-                'first_agent_phone','first_agent_direct','second_agent_name','second_agent_id','second_agent_mobile','second_agent_phone',
-                'second_agent_direct','photo_count')
-            ->where('batch_id',$batch->id)
-            ->get();
-        DB::connection()->setFetchMode(PDO::FETCH_CLASS);
-
-        $filename = 'reanz_'.$batch->export_date_filename;
-
-        Excel::create($filename, function($excel) use($data) {
-            $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,"'",'A1',false,false);
-            });
-        })->export('csv');
-    }
-
-    public function export_reanz_excel(Batch $batch){
+    public function export_reanz(Batch $batch,$file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('reanzs')
             ->select('listing_id','property_id','scrape_date',DB::raw('DATE_FORMAT(list_date,"%d/%m/%Y") as list_date'),'url','site_area','property_address','unit_no','st_no_pref',
@@ -292,7 +135,7 @@ class ExportController extends Controller
                     'Q' => 'General'
                 ));
             });
-        })->export('xlsx');
+        })->export($file_type);
     }
 
 
