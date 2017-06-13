@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Admin;
 use App\Batch;
 use App\Publication;
-use App\JobNumber;
-use App\AUPostCode;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\UserLog;
 
 class AdminController extends Controller
 {
@@ -166,9 +163,18 @@ class AdminController extends Controller
                 ->get());
         }
 
-
-
         return view('admin.report.production',compact('results','from','to','user_id'));
+    }
+
+    public function report_stats(Request $request){
+
+        $production_date = $request->production_date ? Carbon::createFromFormat('d/m/Y', $request->production_date) : Carbon::now();
+
+        $results = UserLog::whereIn('action', array('E', 'I', 'V'))
+            ->whereDate('entry_logs.end','=',$production_date->format('Y-m-d'))
+            ->get();
+
+        return view('admin.report.stats',compact('results','production_date'));
     }
 
     /** Setup Menu */

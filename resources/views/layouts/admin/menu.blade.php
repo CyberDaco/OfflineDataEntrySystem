@@ -47,7 +47,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ url('/admin/export/stats') }}">EP90 Stats Data</a></li>
+                    <li><a href="{{ url('/admin/report/stats') }}">EP90 Stats Data</a></li>
                     <li><a href="{{ url('/admin/report/production') }}">Production Report</a></li>
                     <li><a href="{{ url('/news/pubexport') }}">Publication Exports</a></li>
                     <li><a href="{{ url('/news/perpublication') }}">Per Publication</a></li>

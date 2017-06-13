@@ -17,5 +17,64 @@ class ReportController extends Controller
     public function __construct(){
         $this->middleware('admin'); 
     }
+
+    public function export_report_stats(Request $request){
+
+        $production_date = Carbon::createFromFormat('d/m/Y', $request->prod_date);
+
+        $current_month = $production_date->copy()->startOfMonth()->format('Y-m-d');
+
+        $export = DB::table('job_numbers')
+            ->join('entry_logs','job_numbers.id','=','entry_logs.jobnumber_id')
+            ->whereDate('current_month','=',$current_month)
+            ->whereDate('entry_logs.end','=',$production_date->format('Y-m-d'))
+            ->wherein('entry_logs.action',array('E','I','V'))
+            ->select(DB::raw("count(user_id) as records"),
+                DB::raw("DATE_FORMAT(start,'%y') as year"),
+                DB::raw('DAYOFYEAR(start) as julian'),
+                DB::raw('TIME_FORMAT(SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))),"%h %i") as hours'),
+                'entry_logs.action','job_numbers.job_number',
+                'job_numbers.stats_output','entry_logs.start','entry_logs.end','entry_logs.user_id')
+            ->groupBy('job_number','user_id','action')
+            ->orderBy('job_number')
+            ->get();
+
+        $file = fopen('output.txt','w+');
+
+        foreach($export as $row)
+        {
+            fwrite($file,$row->action."       ");
+            fwrite($file,"0".$row->job_number."        ");
+            for($i=strlen($row->user_id);$i <= 2; $i++){
+                fwrite($file,"0");
+            }
+            fwrite($file,$row->user_id);
+            fwrite($file,$row->stats_output);
+            for($j=strlen($row->stats_output);$j <= 15; $j++){
+                fwrite($file," ");
+            }
+            fwrite($file,$row->year);
+            for($i=strlen($row->julian);$i <= 2; $i++){
+                fwrite($file,"0");
+            }
+            fwrite($file,$row->julian."      ");
+            fwrite($file,$row->hours."          ");
+            fwrite($file,$row->hours);
+            for($i=strlen($row->records);$i <= 4; $i++){
+                fwrite($file," ");
+            }
+            fwrite($file,$row->records);
+            fwrite($file,"\r\n");
+        }
+
+        //close the file
+        fclose($file);
+
+        $headers = array(
+            'Content-Type' => 'text/csv',
+        );
+
+        return response()->download('output.txt','output.txt', $headers);
+    }
 }
 

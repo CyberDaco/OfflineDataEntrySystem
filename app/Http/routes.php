@@ -137,14 +137,15 @@ Route::get('/admin/export/recent_sales','AdminController@export_recent_sales');
 
 /** Report Menu */
 Route::get('/admin/report/production','AdminController@report_production');
-
-
-Route::get('/admin/export/stats','ExportController@show_stats');
-Route::post('/admin/export/stats','ExportController@get_stats');
-Route::get('/admin/export/stats_output','ExportController@export_stats');
+Route::get('/admin/report/stats','AdminController@report_stats');
 
 
 
+
+/**
+ * Report Controller
+ */
+Route::get('/admin/report/stats_output','ReportController@export_report_stats');
 
 
 /**
