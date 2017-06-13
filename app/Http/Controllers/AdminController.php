@@ -96,7 +96,7 @@ class AdminController extends Controller
             $results = $batch->recent_sales()
                 ->select('batch_id','batch_name', \DB::raw('COUNT(batch_name) as records'))
                 ->groupBy('batch_name')
-                ->orderBy('batch_name')
+                ->orderBy('state','batch_name')
                 ->get();
         } else {
             $results = null;

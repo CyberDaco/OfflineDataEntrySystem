@@ -165,34 +165,7 @@ class ExportController extends Controller
         })->export('xlsx');
     }
 
-    public function show_sat_auction(Request $request){
-
-        if($request->job_date){
-            $job_date = Carbon::createFromFormat('d/m/Y', $request->job_date);
-        }
-        $batch = Batch::where('job_name',$request->job_name)
-            ->where('batch_date',$job_date->format('Y-m-d'))
-            ->get()->first();
-
-
-        if($batch){
-            $results = $batch->recent_sales()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('batch_name')
-                ->get();
-
-            $default_date = $request->job_date;
-            return view('/admin/export/sat_auction',compact('results','default_date','batch'));
-            //return view('admin.export.sat_auction',compact('results','default_date'));
-
-        } else {
-            flash()->info('No Record Found!!');
-            return redirect()->back()->withInput();
-        }
-    }
-
-    public function export_sat_auction_csv(Batch $batch){
+    public function export_sat_auction_csv(Batch $batch,$file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('recent_sales')
             ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
@@ -211,7 +184,7 @@ class ExportController extends Controller
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A1',false,false);
             });
-        })->export('csv');
+        })->export($file_type);
     }
 
     public function export_sat_auction_excel(Batch $batch){
@@ -231,7 +204,7 @@ class ExportController extends Controller
 
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,null,'A1',false,false);
+                $sheet->fromArray($data,"'",'A1',false,false);
             });
         })->export('xlsx');
     }

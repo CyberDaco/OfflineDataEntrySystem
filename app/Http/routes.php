@@ -158,8 +158,9 @@ Route::get('/admin/export/stats','ExportController@show_stats');
 Route::post('/admin/export/stats','ExportController@get_stats');
 Route::get('/admin/export/stats_output','ExportController@export_stats');
 
-Route::get('/admin/export/sat_auction/{batch}','ExportController@export_sat_auction_csv');
-Route::get('/admin/export/sat_auction/{batch}/excel','ExportController@export_sat_auction_excel');
+Route::get('/admin/export/sat_auction/{batch}/{file_type}','ExportController@export_sat_auction_csv');
+//Route::get('/admin/export/sat_auction/{batch}/excel','ExportController@export_sat_auction_excel');
+
 
 Route::get('/admin/report/production','AdminController@showproduction');
 Route::get('/admin/export/interest','AdminController@showinterestexport');
