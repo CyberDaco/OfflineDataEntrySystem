@@ -126,25 +126,34 @@ Route::get('/profile/view', 'UserProfileController@showdetails');
 Route::post('/profile/{userprofile}/edit', 'UserProfileController@updatedetails');
 
 
-
-
 /**
- * Reports Controller
+ * Admin Controller
  */
-Route::post('/admin/report/production','ReportController@productionreport');
+/** Export Menu */
+Route::get('/admin/export/sat_auction','AdminController@export_saturday_auction');
+Route::get('/admin/export/reanz','AdminController@export_reanz');
+Route::get('/admin/export/interest','AdminController@export_interest');
+Route::get('/admin/export/recent_sales','AdminController@export_recent_sales');
 
-/**
- * Exports Controller
- */
+/** Report Menu */
+Route::get('/admin/report/production','AdminController@report_production');
 
-Route::get('/admin/export/aunews','ExportController@show_aunews');
-Route::get('/admin/export/aunews/batch','ExportController@get_aunews');
-Route::get('/admin/export/aunews/valid','ExportController@export_aunews');
-Route::get('/admin/export/invalid/{batch}','ExportController@export_invalid');
 
 Route::get('/admin/export/stats','ExportController@show_stats');
 Route::post('/admin/export/stats','ExportController@get_stats');
 Route::get('/admin/export/stats_output','ExportController@export_stats');
+
+
+
+
+
+/**
+ * Exports Controller
+ */
+Route::get('/admin/export/aunews','ExportController@show_aunews');
+Route::get('/admin/export/aunews/batch','ExportController@get_aunews');
+Route::get('/admin/export/aunews/valid','ExportController@export_aunews');
+Route::get('/admin/export/invalid/{batch}','ExportController@export_invalid');
 
 Route::get('/admin/export/sat_auction/{batch}/{file_type}','ExportController@export_sat_auction');
 Route::get('/admin/export/reanz/{batch}/{file_type}','ExportController@export_reanz');
@@ -152,13 +161,7 @@ Route::get('/admin/export/interest/{batch}/{file_type}','ExportController@export
 Route::get('/admin/export/recent_sales/{batch}/{file_type}','ExportController@export_recent_sales');
 
 
-Route::get('/admin/export/sat_auction','AdminController@export_saturday_auction');
-Route::get('/admin/export/reanz','AdminController@export_reanz');
-Route::get('/admin/export/interest','AdminController@export_interest');
-Route::get('/admin/export/recent_sales','AdminController@export_recent_sales');
 
-
-Route::get('/admin/report/production','AdminController@showproduction');
 
 
 

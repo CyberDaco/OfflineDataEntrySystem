@@ -20,19 +20,11 @@ class AdminController extends Controller
     public function __construct(){
         $this->middleware('admin');
     }
-    
+
+    /** Dashboard */
     public function index(){
         return view('admin.dashboard');
     }
-    
-    public function showuser(){
-        return view('admin.sysusers');
-    }
-    
-    public function showjobnumber(){
-        return view('admin.jobnumbers');
-    }
-
 
     /** Batch Menu */
     public function batch_interest(){
@@ -49,7 +41,7 @@ class AdminController extends Controller
         $batches = Batch::where('application','Australian Newspapers')->get();
         return view('admin.batch.aunews',compact('batches'));
     }
-    
+
     public function batch_reanz(){
         $batches = Batch::where('application','REA NZ Keying')->get();
         return view('admin.batch.reanz',compact('batches'));
@@ -58,12 +50,6 @@ class AdminController extends Controller
     public function batch_sat_auction(){
         $batches = Batch::where('application','Saturday Auction')->get();
         return view('admin.batch.sat_auction',compact('batches'));
-    }
-
-
-    /** Report Menu */
-    public function showproduction(){
-        return view('admin.report.production');
     }
 
 
@@ -150,11 +136,58 @@ class AdminController extends Controller
                 ->orderBy('batch_name')
                 ->get();
         } else {
-           $results = null;
+            $results = null;
         }
 
         return view('admin.export.recent_sales',compact('results','job_date','job_name','batch'));
     }
+
+    /** Report Menu */
+    public function report_production(Request $request){
+
+        $from = $request->date_from ? Carbon::createFromFormat('d/m/Y', $request->date_from)->startOfDay() : Carbon::now();
+        $to = $request->date_to ? Carbon::createFromFormat('d/m/Y', $request->date_to)->endOfDay() : Carbon::now();
+        $user_id = $request->user_id ? $request->user_id : "";
+
+        if($user_id == ""){
+            $results = collect(DB::table('entry_logs')
+                ->select('user_id','batch_name','action',DB::raw('COUNT(user_id) as records'),DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))) as hours'))
+                ->whereBetween('end',[$from,$to])
+                ->whereIn('action',array('E','V'))
+                ->groupBy('user_id','batch_name','action')
+                ->get());
+        } else {
+            $results = collect(DB::table('entry_logs')
+                ->select('user_id','batch_name','action',DB::raw('COUNT(user_id) as records'),DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))) as hours'))
+                ->whereBetween('end',[$from,$to])
+                ->where('user_id',$request->user_id)
+                ->whereIn('action',array('E','V'))
+                ->groupBy('user_id','batch_name','action')
+                ->get());
+        }
+
+
+
+        return view('admin.report.production',compact('results','from','to','user_id'));
+    }
+
+    /** Setup Menu */
+    public function showuser(){
+        return view('admin.sysusers');
+    }
+    
+    public function showjobnumber(){
+        return view('admin.jobnumbers');
+    }
+
+
+
+
+
+
+
+
+
 
 
 
