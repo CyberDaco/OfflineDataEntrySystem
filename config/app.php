@@ -155,6 +155,7 @@ return [
         Laracasts\Flash\FlashServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
             
 
         /*
@@ -171,6 +172,7 @@ return [
         App\Providers\AUNewsServiceProvider::class,
         App\Providers\MacrosServiceProvider::class,
         //App\Providers\ReaNZServiceProvider::class,
+
         
 
     ],
@@ -227,6 +229,8 @@ return [
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Goutte' => Weidner\Goutte\GoutteFacade::class, 
         'Hash' => Illuminate\Support\Facades\Hash::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+
     ],
 
 ];

@@ -7,15 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Batch;
-
 use Carbon\Carbon;
-
 use Illuminate\Support\Facades\DB;
-
 use App\Http\Requests\FindRequest;
-
 use Excel;
-
 use PDO;
 
 
@@ -128,7 +123,6 @@ class ExportController extends Controller
             });
         })->export($file_type);
     }
-
 
     public function show_aunews(){
         return view('admin.export.aunews');
@@ -339,10 +333,6 @@ class ExportController extends Controller
         })->export('xls');
     }
 
-
-    
- 
- 
     public function zipFileDownload(){
     
         $public_dir=public_path().'/uploads';
