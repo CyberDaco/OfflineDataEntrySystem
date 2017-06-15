@@ -40,7 +40,7 @@ class AppController extends Controller
         return view('profile',compact('applications','results'));
     }
 
-    public function userprofileupdate(ProfileRequest $request, UserProfile $userprofile){
+    public function profileupdate(ProfileRequest $request, UserProfile $userprofile){
         if($request->password != "")
         {
             $user = User::where('operator_id',$request->operator_id)->first();

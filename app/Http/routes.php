@@ -82,7 +82,6 @@ Route::post('/admin/setup/states/add', 'StatesController@statesstore');
 Route::get('/admin/setup/states/{state}/edit', 'StatesController@statesedit');
 Route::post('/admin/setup/states/{state}/edit', 'StatesController@statesupdate');
 Route::post('/admin/setup/states/delete', 'StatesController@statesdelete');
- 
 
 
 /**
@@ -94,6 +93,7 @@ Route::post('/admin/setup/aupostcode/add', 'AUPostCodeController@aupostcodestore
 Route::get('/admin/setup/aupostcode/{aupostcode}/edit', 'AUPostCodeController@aupostcodeedit');
 Route::post('/admin/setup/aupostcode/{aupostcode}/edit', 'AUPostCodeController@aupostcodeupdate');
 Route::post('/admin/setup/aupostcode/delete', 'AUPostCodeController@aupostcodedelete');
+
 
 /**
  * Publication Controller
@@ -123,7 +123,8 @@ Route::get('/admin/setup/userprofile/{userprofile}/edit', 'UserProfileController
 Route::post('/admin/setup/userprofile/{userprofile}/edit', 'UserProfileController@userprofileupdate');
 Route::post('/admin/setup/userprofile/delete', 'UserProfileController@userprofiledelete');
 Route::get('/profile/view', 'UserProfileController@showdetails');
-Route::post('/profile/{userprofile}/edit', 'UserProfileController@updatedetails');
+
+//Route::post('/profile/{userprofile}/edit', 'UserProfileController@updatedetails');
 
 
 /**
@@ -138,8 +139,6 @@ Route::get('/admin/export/recent_sales','AdminController@export_recent_sales');
 /** Report Menu */
 Route::get('/admin/report/production','AdminController@report_production');
 Route::get('/admin/report/stats','AdminController@report_stats');
-
-
 
 
 /**
@@ -161,19 +160,9 @@ Route::get('/admin/export/reanz/{batch}/{file_type}','ExportController@export_re
 Route::get('/admin/export/interest/{batch}/{file_type}','ExportController@export_interest');
 Route::get('/admin/export/recent_sales/{batch}/{file_type}','ExportController@export_recent_sales');
 
-
-
-
-
-
-
-
-
 /**
  * Entry Logs Controller
  */
-
-
  Route::get('/admin/utilities/entrylogs','EntryLogController@view');
 
 
@@ -192,22 +181,8 @@ Route::post('/admin/lookup/natalpha','NatalphaController@import');
 Route::get('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@view');
 Route::post('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@import');
 
-
-
-
 Route::get('/admin/lookup/sample','ScrapeHomePriceController@scrape');
 
-
-
-
-/**
- * Admin Auth Controller
- */ 
-Route::get('/admin/login','AdminAuth\AuthController@showLoginForm');
-Route::post('/admin/login','AdminAuth\AuthController@login');
-Route::get('/admin/logout','AdminAuth\AuthController@logout');
-Route::get('/admin/register', 'AdminAuth\AuthController@showRegistrationForm');
-Route::post('/admin/register', 'AdminAuth\AuthController@register');
 
 /**
  * Batch Contoller
@@ -218,21 +193,7 @@ Route::post('/admin/batch','BatchController@store');
 Route::post('/admin/batch/{batch_id}/edit','BatchController@update');
 Route::post('/admin/batch/delete','BatchController@destroy');
 
- 
 
-/**
- * App Controller
- */
-Route::get('/dataentry','AppController@index');
-Route::get('/profile','AppController@profile');
-Route::post('/profile/{userprofile}/edit', 'AppController@userprofileupdate');
-
-
-
-/**
- * User Auth Controller
- */ 
-Route::auth();
 
 /**
  * Interest Auction Results Controller
@@ -249,6 +210,7 @@ Route::post('/interest/{record}/update', 'InterestController@update');
 Route::post('/interest/delete', 'InterestController@delete');
 Route::get('/interest/search/{id}','InterestController@search');
 
+
 /**
  * Recent Sales Controller
  */
@@ -263,6 +225,7 @@ Route::get('/recent_sales/modify/{id}', 'RecentSaleController@modify');
 Route::post('/recent_sales/{record}/update', 'RecentSaleController@update');
 Route::post('/recent_sales/delete', 'RecentSaleController@delete');
 Route::get('/recent_sales/search_post_code/{suburb}/{state}','RecentSaleController@search_postcode');
+
 
 /**
  * Saturday Auction Controller
@@ -285,10 +248,6 @@ Route::get('/sat_auction/scrape/{page}','SaturdayAuctionController@scrape');
 Route::get('/sat_auction/entry/lookup','SaturdayAuctionController@ajax_lookup');
 Route::get('/sat_auction/api/get-suburbs-list','SaturdayAuctionController@suburbs_list');
 
-
-
-
-
 /**
  * News Controller
  */
@@ -306,10 +265,9 @@ Route::get('/aunews/verify', 'NewsController@verify'); // 1
 Route::get('/aunews/verify/{id}/propdetails', 'NewsController@verifypropertydetails'); //2
 Route::post('/aunews/verify/{aunews_address}/update', 'NewsController@verify_update'); //3
 
-
-
 Route::get('/aunews/postcode/{suburb}','AUPostCodeController@search');
 Route::get('/aunews/agent/{contact}','AUNewsAgencyController@search');
+
 
 //REA NZ
 Route::get('/reanz','ReanzController@index');
@@ -323,3 +281,25 @@ Route::post('/reanz/delete', 'ReanzController@delete');
 Route::get('/reanz/search/{id}','ReanzController@search');
 
 
+
+//error in caching starts
+/**
+ * App Controller
+ */
+Route::get('/dataentry','AppController@index');
+Route::get('/profile','AppController@profile');
+Route::post('/profile/{userprofile}/edit', 'AppController@profileupdate');
+
+
+/**
+ * Admin Auth Controller
+ */
+Route::get('/admin/login','AdminAuth\AuthController@showLoginForm');
+Route::post('/admin/login','AdminAuth\AuthController@login');
+Route::get('/admin/register', 'AdminAuth\AuthController@showRegistrationForm');
+Route::post('/admin/register', 'AdminAuth\AuthController@register');
+
+/**
+ * User Auth Controller
+ */
+Route::auth();
