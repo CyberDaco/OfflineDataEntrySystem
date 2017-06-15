@@ -67,3 +67,11 @@
 @include('components.dialog',['dialog_type'=>'modal-danger','title'=>'Confirm','action'=>'/sat_auction/delete','message'=>'Are you sure you want to delete this record?'])
 
 @endsection
+
+@push('scripts')
+<script>
+  $(document).ready(function(){
+    $("html, body").scrollTop(100000);
+  });
+</script>
+@endpush
