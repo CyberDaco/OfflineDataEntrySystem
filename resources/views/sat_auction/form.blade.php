@@ -57,8 +57,6 @@
         </div>
     </div>
 
-    <br><br>
-
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
             {!! Form::label('property_type','Property Type',['class'=>'control-label']) !!}
@@ -67,6 +65,8 @@
             {!! Form::select('property_type',['HO'=>'HOUSE','CO'=>'COMMERCIAL','FA'=>'FARM','FL'=>'FLAT','LA'=>'LAND','UN'=>'UNIT'],null,['class'=>'form-control input-sm', 'required']) !!}
         </div>
     </div>
+
+    <br><br>
 
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
