@@ -85,6 +85,15 @@
 
         $("select[name='locality']").focus();
 
+
+        $("input[name='sold_price']").keydown(function(e){
+            if(e.keyCode == 85){
+                e.preventDefault();
+                $("input[name='sold_price']").val('Undisclosed');
+            }
+        });
+        
+
         $("#frmDataEntry").submit(function (e) {
 
             var input_date = $("input[name='contract_date']").val();
@@ -136,10 +145,6 @@
                 $("input[name='sold_price']").focus();
                 return false;
             }
-
-
-
-
 
             return true;
         });
