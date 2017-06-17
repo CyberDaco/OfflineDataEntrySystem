@@ -86,6 +86,27 @@
         $("select[name='locality']").focus();
 
         $("#frmDataEntry").submit(function (e) {
+
+            var input_date = $("input[name='contract_date']").val();
+            var contract_date = new Date(input_date.split("/").reverse().join("-"));
+            var current_date = new Date();
+
+            var month_diff = (current_date.getMonth() + 1) - (contract_date.getMonth() + 1);
+
+            if(contract_date.getTime() > current_date.getTime())
+            {
+                alert('date is future error!!! Invalid Date**');
+                $("input[name='contract_date']").css('background-color','pink');
+                $("input[name='contract_date']").focus();
+                return false;
+            } else if (month_diff > 3 ){
+                alert('date is 4 months old!!! Invalid Date**');
+                $("input[name='contract_date']").css('background-color','pink');
+                $("input[name='contract_date']").focus();
+                return false;
+            }
+
+
             if ($("select[name='sale_type']").val() == 'Passed In' && $("input[name='sold_price']").val() != ''){
                 $("input[name='sold_price']").css('background-color','pink');
                 $("input[name='sold_price']").focus();
@@ -115,6 +136,11 @@
                 $("input[name='sold_price']").focus();
                 return false;
             }
+
+
+
+
+
             return true;
         });
 
