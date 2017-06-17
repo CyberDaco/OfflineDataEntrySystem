@@ -92,7 +92,26 @@
                 $("input[name='sold_price']").val('Undisclosed');
             }
         });
-        
+
+        $("select[name='sale_type']").keydown(function(e){
+            if(e.keyCode == 80){
+                e.preventDefault();
+                $("select[name='sale_type']").val('Passed In');
+            }
+            if(e.keyCode == 86){
+                e.preventDefault();
+                $("select[name='sale_type']").val('Vendor Bid');
+            }
+            if(e.keyCode == 87){
+                e.preventDefault();
+                $("select[name='sale_type']").val('Withdrawn');
+            }
+            if(e.keyCode == 78){
+                e.preventDefault();
+                $("select[name='sale_type']").val('No Bid');
+            }
+        });
+
 
         $("#frmDataEntry").submit(function (e) {
 
