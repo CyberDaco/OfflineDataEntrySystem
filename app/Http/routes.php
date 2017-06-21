@@ -181,7 +181,8 @@ Route::post('/admin/lookup/natalpha','NatalphaController@import');
 Route::get('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@view');
 Route::post('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@import');
 
-Route::get('/admin/lookup/sample','ScrapeHomePriceController@scrape');
+Route::get('/admin/lookup/sample','ScrapeHomePriceController@import');
+
 
 
 /**
@@ -280,9 +281,6 @@ Route::post('reanz/{record}/update', 'ReanzController@update');
 Route::post('/reanz/delete', 'ReanzController@delete');
 Route::get('/reanz/search/{id}','ReanzController@search');
 
-
-
-//error in caching starts
 /**
  * App Controller
  */

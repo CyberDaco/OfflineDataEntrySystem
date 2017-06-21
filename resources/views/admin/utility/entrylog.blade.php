@@ -21,6 +21,7 @@
               <th>Action</th>
               <th>Start Time</th>
               <th>End Time</th>
+              <th>Total Time</th>
               <th>Job Number</th>
             </tr>
             </thead>
@@ -37,6 +38,7 @@
                   <td>{{ $entry_log->action }}</td>
                   <td>{{ $entry_log->start }}</td>
                   <td>{{ $entry_log->end }}</td>
+                  <td>{{ (strtotime($entry_log->end) - strtotime($entry_log->start))/60 }}</td>
                   <td>{{ $entry_log->job_log->job_number }}</td>
                 </tr>
               @endforeach
