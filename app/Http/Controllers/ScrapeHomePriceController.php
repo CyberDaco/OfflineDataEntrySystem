@@ -22,9 +22,9 @@ class ScrapeHomePriceController extends Controller
         $filename = $request->file('csv')->getClientOriginalName();
         $request->file('csv')->move(base_path() . '/storage/upload/home_price/',$filename);
 
-        $sale_type = ['S'=>'Sold at Auction','SP'=>'Sold Prior to Auction','SN'=>'Sold At Auction',
+        $sale_type = ['S'=>'Sold At Auction','SP'=>'Sold Prior To Auction','SN'=>'Sold At Auction',
                       'VB'=>'Vendor Bid','PN'=>'Sold Prior To Auction','PI'=>'Passed In','SA'=>'Sold After Auction',
-                        'W'=>'Withdrawn','SS'=>'Sold at Auction' ];
+                        'W'=>'Withdrawn','SS'=>'Sold At Auction' ];
         $prop_type = ['u'=>'UN','h'=>'HO','t'=>'UN'];
 
 
@@ -54,7 +54,7 @@ class ScrapeHomePriceController extends Controller
                 $csv_data->settlement_date = null;
                 $csv_data->agency_name = $data [5];
                 $csv_data->bedroom = preg_replace('/\D/', '', $data[2]);
-                $csv_data->slug = str_slug('vic '.$data[1].' '.$data[0],'-');
+                $csv_data->slug = str_slug('vic '.str_replace('/','-',$data[1]).' '.$data[0],'-');
                 $csv_data->save ();
             }
             fclose ( $handle );
