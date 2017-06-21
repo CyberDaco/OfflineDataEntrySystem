@@ -90,6 +90,17 @@
             </li>
 
             <li class="treeview">
+                <a href="#"><i class="fa fa-money"></i> <span>Imports</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ url('/admin/import/home_price') }}">Home Price</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
                 <a href="#"><i class="fa fa-warning"></i> <span>Security</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>

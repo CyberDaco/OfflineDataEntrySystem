@@ -12,9 +12,15 @@ class ScrapeHomePriceController extends Controller
 {
     public $property = '';
 
+    public function view_home_price(){
+        $results = ScrapeHomePrice::all();
+        return view('admin.import.home_price',compact('results'));
+
+    }
+
     public function import(Request $request){
-        //$filename = $request->file('csv')->getClientOriginalName();
-        //$request->file('csv')->move(base_path() . '/storage/upload/home_price/',$filename);
+        $filename = $request->file('csv')->getClientOriginalName();
+        $request->file('csv')->move(base_path() . '/storage/upload/home_price/',$filename);
 
         $sale_type = ['S'=>'Sold at Auction','SP'=>'Sold Prior to Auction','SN'=>'Sold At Auction',
                       'VB'=>'Vendor Bid','PN'=>'Sold Prior To Auction','PI'=>'Passed In','SA'=>'Sold After Auction',
@@ -24,32 +30,38 @@ class ScrapeHomePriceController extends Controller
 
         ScrapeHomePrice::truncate();
 
-        if (($handle = fopen ( base_path() . '/storage/upload/home_price/vic.csv', 'r' )) !== FALSE) {
+        if (($handle = fopen ( base_path() . '/storage/upload/home_price/'.$filename, 'r' )) !== FALSE) {
 
             while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
 
 
                 $csv_data = new ScrapeHomePrice();
                 $csv_data->state = 'VIC';
-                $csv_data->street_name = $data [1];
+
+                $csv_data->street_name = str_replace('/',' ',$data[1]);
                 $csv_data->suburb = $data [0];
                 preg_match('/(h|u|t|dev site)/',$data[2],$match);
                 $property_type = trim($match[0]) ? trim($match[0]) : '';
                 $csv_data->property_type = $prop_type[$property_type];
                 $csv_data->sale_type = $sale_type[strtoupper($data [4])];
-                $csv_data->sold_price = $data [3] == 'N/A' ? 'Undisclosed' : preg_replace('/\D/', '', $data[3]);
+                if ($sale_type[strtoupper($data [4])] == 'Passed In' || $sale_type[strtoupper($data [4])] == 'Withdrawn' || $sale_type[strtoupper($data [4])] == 'No Bid'){
+                    $csv_data->sold_price = '';
+                } else {
+                    $csv_data->sold_price = $data [3] == 'N/A' ? 'Undisclosed' : preg_replace('/\D/', '', $data[3]);
+                }
+
                 $csv_data->contract_date = Carbon::now();
                 $csv_data->settlement_date = null;
                 $csv_data->agency_name = $data [5];
                 $csv_data->bedroom = preg_replace('/\D/', '', $data[2]);
-                $csv_data->slug = str_slug('vic '.$data[1].' '.$data[0]);
+                $csv_data->slug = str_slug('vic '.$data[1].' '.$data[0],'-');
                 $csv_data->save ();
             }
             fclose ( $handle );
         }
         $records = ScrapeHomePrice::all();
-        return $records;
-        //return redirect()->back();
+
+        return redirect()->back();
     }
 
 
