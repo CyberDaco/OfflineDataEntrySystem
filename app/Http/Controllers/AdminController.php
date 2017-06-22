@@ -148,22 +148,33 @@ class AdminController extends Controller
 
         if($user_id == ""){
             $results = collect(DB::table('entry_logs')
-                ->select('user_id','batch_name','action',DB::raw('COUNT(user_id) as records'),DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))) as hours'))
-                ->whereBetween('end',[$from,$to])
-                ->whereIn('action',array('E','V'))
-                ->groupBy('user_id','batch_name','action')
+                ->leftJoin('batches', 'entry_logs.batch_id', '=', 'batches.id')
+                ->select('batches.batch_date','batches.job_name','entry_logs.user_id','entry_logs.batch_name','entry_logs.action',
+                    DB::raw('COUNT(entry_logs.user_id) as records'),
+                    DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
+                    DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
+                ->whereBetween('entry_logs.end',[$from,$to])
+                ->whereIn('entry_logs.action',array('E','V'))
+                ->groupBy('entry_logs.user_id','entry_logs.batch_name','entry_logs.action','batches.job_name')
                 ->get());
         } else {
             $results = collect(DB::table('entry_logs')
-                ->select('user_id','batch_name','action',DB::raw('COUNT(user_id) as records'),DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))) as hours'))
-                ->whereBetween('end',[$from,$to])
-                ->where('user_id',$request->user_id)
-                ->whereIn('action',array('E','V'))
-                ->groupBy('user_id','batch_name','action')
+                ->leftJoin('batches', 'entry_logs.batch_id', '=', 'batches.id')
+                ->select('batches.batch_date','batches.job_name','entry_logs.user_id','entry_logs.batch_name','entry_logs.action',
+                    DB::raw('COUNT(entry_logs.user_id) as records'),
+                    DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
+                    DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds')
+                    )
+                ->whereBetween('entry_logs.end',[$from,$to])
+                ->where('entry_logs.user_id',$request->user_id)
+                ->whereIn('entry_logs.action',array('E','V'))
+                ->groupBy('entry_logs.user_id','entry_logs.batch_name','entry_logs.action','batches.job_name')
                 ->get());
         }
 
         return view('admin.report.production',compact('results','from','to','user_id'));
+
+
     }
 
     public function report_stats(Request $request){
