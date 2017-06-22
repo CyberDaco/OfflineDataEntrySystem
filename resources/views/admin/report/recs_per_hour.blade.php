@@ -6,7 +6,7 @@
   <div class="col-md-12">
     <div class="box box-primary">
         <div class="box-header with-border">
-            <h3 class="box-title"><strong>Production Report</strong></h3>
+            <h3 class="box-title"><strong>Records Per Hour Report</strong></h3>
         </div>
         <div class="box-body">
             <form id="frmProductionReport">
@@ -40,29 +40,26 @@
         <div class="box">
             <table class="table table-hover">
                 <tr>
-                    <th>Staff ID</th>
+                    <th>Entry Type</th>
+                    <th class="text-center">Staff ID</th>
+                    <th>Employee Name</th>
                     <th>Job Name</th>
-                    <th>Job Date</th>
-                    <th>Batch Name</th>
-                    <th class="text-center">Entry Type</th>
                     <th class="text-right">Records</th>
                     <th class="text-center">Hours</th>
                     <th class="text-center">Record / Hour </th>
                 </tr>
                 @foreach($results as $result)
                     <tr>
-                        <td>{{ $result->user_id }}</td>
+                        <td>{{ $result->action }}</td>
+                        <td class="text-center">{{ sprintf('%03d',$result->user_id) }}</td>
+                        <td><strong>{{ $result->firstname.' '.$result->lastname }}</strong></td>
                         <td>{{ $result->job_name }}</td>
-                        <td>{{ $result->batch_date }}</td>
-                        <td>{{ $result->batch_name }}</td>
-                        <td class="text-center">{{ $result->action }}</td>
                         <td class="text-right">{{ $result->records }}</td>
                         <td class="text-center">{{ $result->hours }}</td>
-                        <td class="text-center" style="color:brown;"><strong>{{ $result->records != 0 ? number_format($result->records / ($result->seconds / 3600),2) : '0' }}</strong></td>
+                        <td class="text-center" style="color:brown;"><strong>{{ number_format($result->recs_per_hour,2) }}</strong></td>
                     </tr>
                 @endforeach
                 <tr>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>

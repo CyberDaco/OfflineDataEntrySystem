@@ -49,9 +49,10 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ url('/admin/report/stats') }}">EP90 Stats Data</a></li>
                     <li><a href="{{ url('/admin/report/production') }}">Production Report</a></li>
+                    <li><a href="{{ url('/admin/report/recs_per_hour') }}">Records Per Hour</a></li>
+
                     <li><a href="{{ url('/news/pubexport') }}">Publication Exports</a></li>
                     <li><a href="{{ url('/news/perpublication') }}">Per Publication</a></li>
-                    <li><a href="{{ url('/news/recsperhr') }}">Records Per Hour</a></li>
                     <li><a href="{{ url('/news/costanalysis') }}">Cost Analysis</a></li>
                 </ul>
             </li>

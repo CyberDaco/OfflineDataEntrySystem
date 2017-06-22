@@ -207,6 +207,49 @@ class AdminController extends Controller
         return view('admin.report.stats',compact('results','production_date'));
     }
 
+    public function report_recs_per_hour(Request $request){
+        $from = $request->date_from ? Carbon::createFromFormat('d/m/Y', $request->date_from)->startOfDay() : Carbon::now();
+        $to = $request->date_to ? Carbon::createFromFormat('d/m/Y', $request->date_to)->endOfDay() : Carbon::now();
+        $user_id = $request->user_id ? $request->user_id : "";
+
+        if($user_id == ""){
+            $results = collect(DB::table('entry_logs')
+                ->leftJoin('batches', 'entry_logs.batch_id', '=', 'batches.id')
+                ->leftJoin('users','entry_logs.user_id','=','users.operator_id')
+                ->select('users.firstname','users.lastname','batches.batch_date','batches.job_name','entry_logs.user_id','entry_logs.batch_name','entry_logs.action',
+                    DB::raw('COUNT(entry_logs.user_id) as records'),
+                    DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
+                    DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'),
+                    DB::raw('COUNT(entry_logs.user_id) / (SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) / 3600) as recs_per_hour'))
+                ->whereBetween('entry_logs.end',[$from,$to])
+                ->whereIn('entry_logs.action',array('E','V'))
+                ->orderBy('batches.job_name','asc')
+                ->orderBy('recs_per_hour','desc')
+                ->groupBy('entry_logs.user_id','entry_logs.action','batches.job_name')
+                ->get());
+        } else {
+            $results = collect(DB::table('entry_logs')
+                ->leftJoin('batches', 'entry_logs.batch_id', '=', 'batches.id')
+                ->leftJoin('users','entry_logs.user_id','=','users.operator_id')
+                ->select('users.firstname','users.lastname','batches.batch_date','batches.job_name','entry_logs.user_id','entry_logs.batch_name','entry_logs.action',
+                    DB::raw('COUNT(entry_logs.user_id) as records'),
+                    DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
+                    DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'),
+                    DB::raw('COUNT(entry_logs.user_id) / (SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) / 3600) as recs_per_hour'))
+                ->whereBetween('entry_logs.end',[$from,$to])
+                ->where('entry_logs.user_id',$request->user_id)
+                ->whereIn('entry_logs.action',array('E','V'))
+                ->orderBy('batches.job_name','asc')
+                ->orderBy('recs_per_hour','desc')
+                ->groupBy('entry_logs.user_id','entry_logs.action','batches.job_name')
+                ->get());
+        }
+
+        return view('admin.report.recs_per_hour',compact('results','from','to','user_id'));
+    }
+
+
+
     /** Setup Menu */
     public function showuser(){
         return view('admin.sysusers');
