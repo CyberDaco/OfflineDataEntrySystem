@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FindRequest;
 use Excel;
 use PDO;
+use App\Events\ExportJob;
 
 
 class ExportController extends Controller
@@ -79,11 +80,15 @@ class ExportController extends Controller
 
         $filename = $batch->export_date_filename.'_vic_ccc';
 
+        event(new ExportJob($batch));
+
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A1',false,false);
             });
         })->export($file_type);
+
+
     }
 
     public function export_reanz(Batch $batch,$file_type){

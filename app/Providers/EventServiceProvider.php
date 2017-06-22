@@ -16,6 +16,10 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\EntryRecordCreated' => [
             'App\Listeners\CreateEntryUserLogs',
         ],
+        'App\Events\ExportJob' => [
+            'App\Listeners\RecordJobExport',
+        ],
+
     ];
 
     /**
