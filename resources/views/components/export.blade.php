@@ -47,6 +47,7 @@
                             <th>Job Date</th>
                             <th>Batch Name</th>
                             <th class="text-center">Records</th>
+                            <th class="text-center">Hours</th>
                             <th>Status</th>
                         </tr>
                         @foreach($results as $result)
@@ -55,6 +56,7 @@
                                 <td>{{ $batch->batch_date }}</td>
                                 <td>{{ $result->batch_name }}</td>
                                 <td class="text-center">{{ $result->records }}</td>
+                                <td class="text-center">{{ $result->hours }}</td>
                                 <td>
                                     <div class="progress">
                                         <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ $result->records / \App\ScrapeHomePrice::where('suburb','REGEXP','^['.substr($result->batch_name,0,3) .'].*$')->count() * 100 }}%">

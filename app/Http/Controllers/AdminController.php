@@ -61,9 +61,11 @@ class AdminController extends Controller
 
         if($batch){
             $results = $batch->recent_sales()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('state','batch_name')
+                ->leftJoin('entry_logs', 'entry_logs.record_id', '=', 'recent_sales.id')
+                ->select('recent_sales.batch_id','recent_sales.batch_name', DB::raw('COUNT(recent_sales.batch_name) as records'),
+                    DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'))
+                ->groupBy('recent_sales.batch_name')
+                ->orderBy('recent_sales.state','recent_sales.batch_name')
                 ->get();
         } else {
             $results = null;
