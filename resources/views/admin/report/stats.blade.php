@@ -47,19 +47,21 @@
                             <tr>
                                 <th>Action</th>
                                 <th>Job Number</th>
-                                <th>Batch Name</th>
-                                <th>Record ID</th>
-                                <th>Start</th>
-                                <th>End</th>
+                                <th>Operator+Job Code</th>
+                                <th>Julian Date</th>
+                                <th>Hours</th>
+                                <th>Hours</th>
+                                <th class="text-center">Records</th>
                             </tr>
                             @foreach($results as $result)
                                 <tr>
                                     <td>{{ $result->action }}</td>
-                                    <td>{{ $result->jobnumber_id }}</td>
-                                    <td>{{ $result->batch_name }}</td>
-                                    <td>{{ $result->record_id }}</td>
-                                    <td>{{ $result->start }}</td>
-                                    <td>{{ $result->end }}</td>
+                                    <td>{{ '0'.$result->job_number }}</td>
+                                    <td>{{ $result->user_id.$result->stats_output }}</td>
+                                    <td>{{ $result->year.sprintf("%03d",$result->julian) }}</td>
+                                    <td>{{ sprintf("%02d", intval($result->seconds/3600)).' '.sprintf("%02d",$result->seconds/60%60) }}</td>
+                                    <td>{{ sprintf("%02d", intval($result->seconds/3600)).' '.sprintf("%02d",$result->seconds/60%60) }}</td>
+                                    <td class="text-center">{{ $result->records }}</td>
                                 </tr>
                             @endforeach
                     </table>

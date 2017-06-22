@@ -62,17 +62,18 @@ class ReportController extends Controller
 
             fwrite($file,sprintf("%02d", intval($row->seconds/3600)));
             fwrite($file," ");
-            fwrite($file,sprintf($row->seconds/60%60));
+            fwrite($file,sprintf("%02d",$row->seconds/60%60));
 
             fwrite($file,"          ");
 
             fwrite($file,sprintf("%02d", intval($row->seconds/3600)));
             fwrite($file," ");
-            fwrite($file,sprintf($row->seconds/60%60));
+            fwrite($file,sprintf("%02d",$row->seconds/60%60));
 
             for($i=strlen($row->records);$i <= 4; $i++){
                 fwrite($file," ");
             }
+
             fwrite($file,$row->records);
             fwrite($file,"\r\n");
         }

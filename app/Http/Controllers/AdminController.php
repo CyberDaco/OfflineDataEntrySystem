@@ -181,8 +181,27 @@ class AdminController extends Controller
 
         $production_date = $request->production_date ? Carbon::createFromFormat('d/m/Y', $request->production_date) : Carbon::now();
 
-        $results = UserLog::whereIn('action', array('E', 'I', 'V'))
+        //$results = UserLog::whereIn('action', array('E', 'I', 'V'))
+          //  ->whereDate('entry_logs.end','=',$production_date->format('Y-m-d'))
+           // ->get();
+
+
+        $current_month = $production_date->copy()->startOfMonth()->format('Y-m-d');
+
+        $results = DB::table('job_numbers')
+            ->join('entry_logs','job_numbers.id','=','entry_logs.jobnumber_id')
+            ->whereDate('current_month','=',$current_month)
             ->whereDate('entry_logs.end','=',$production_date->format('Y-m-d'))
+            ->wherein('entry_logs.action',array('E','I','V'))
+            ->select(DB::raw("count(user_id) as records"),
+                DB::raw("DATE_FORMAT(start,'%y') as year"),
+                DB::raw('DAYOFYEAR(start) as julian'),
+                DB::raw('TIME_FORMAT(SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))),"%h %i") as hours'),
+                'entry_logs.action','job_numbers.job_number',
+                'job_numbers.stats_output','entry_logs.start','entry_logs.end','entry_logs.user_id',
+                DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
+            ->groupBy('job_number','user_id','action')
+            ->orderBy('job_number')
             ->get();
 
         return view('admin.report.stats',compact('results','production_date'));
