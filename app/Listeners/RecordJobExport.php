@@ -27,6 +27,8 @@ class RecordJobExport
      */
     public function handle(ExportJob $event)
     {
-        $event->batch->update(['job_status' => 'Closed','export_date'=>Carbon::now()]);
+        $records = collect($event->data);
+        $event->batch->update(['job_status' => 'Closed','export_date'=>Carbon::now(),'records'=>$records->count()]);
+
     }
 }

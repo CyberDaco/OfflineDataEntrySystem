@@ -16,9 +16,10 @@ class ExportJob extends Event
      *
      * @return void
      */
-    public function __construct(Batch $batch)
+    public function __construct(Batch $batch, $data)
     {
         $this->batch = $batch;
+        $this->data = $data;
         $this->user_id = \Auth::guard("admin")->user()->operator_id;
     }
 

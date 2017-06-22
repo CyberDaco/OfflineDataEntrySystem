@@ -140,6 +140,7 @@ Route::get('/admin/export/recent_sales','AdminController@export_recent_sales');
 Route::get('/admin/report/production','AdminController@report_production');
 Route::get('/admin/report/stats','AdminController@report_stats');
 Route::get('/admin/report/recs_per_hour','AdminController@report_recs_per_hour');
+Route::get('/admin/report/job_export','AdminController@report_job_export');
 
 
 /**

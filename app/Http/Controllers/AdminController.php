@@ -248,6 +248,29 @@ class AdminController extends Controller
         return view('admin.report.recs_per_hour',compact('results','from','to','user_id'));
     }
 
+    public function report_job_export(Request $request){
+
+        $from = $request->date_from ? Carbon::createFromFormat('d/m/Y', $request->date_from)->startOfDay() : Carbon::now();
+        $to = $request->date_to ? Carbon::createFromFormat('d/m/Y', $request->date_to)->endOfDay() : Carbon::now();
+        $app = $request->application ? $request->application : "all";
+
+        if($app == "all"){
+            $results = Batch::where('job_status','Closed')
+                ->whereBetween('export_date',[$from->format('Y-m-d'),$to->format('Y-m-d')])
+                ->orderBy('application','asc')
+                ->orderBy('export_date','asc')
+                ->get();
+        } else {
+            $results = Batch::where('job_status','Closed')
+                ->where('application',$app)
+                ->whereBetween('export_date',[$from->format('Y-m-d'),$to->format('Y-m-d')])
+                ->orderBy('application','asc')
+                ->orderBy('export_date','asc')
+                ->get();
+        }
+
+        return view('admin.report.job_export',compact('results','from','to','app'));
+    }
 
 
     /** Setup Menu */

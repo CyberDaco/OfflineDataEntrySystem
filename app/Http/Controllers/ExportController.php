@@ -80,7 +80,8 @@ class ExportController extends Controller
 
         $filename = $batch->export_date_filename.'_vic_ccc';
 
-        event(new ExportJob($batch));
+
+        event(new ExportJob($batch,$data));
 
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
