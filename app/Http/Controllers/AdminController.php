@@ -259,7 +259,6 @@ class AdminController extends Controller
         return view('admin.jobnumbers');
     }
 
-
     public function logout(){
         Auth::guard('admin')->user()->logout();
         session()->flush();
