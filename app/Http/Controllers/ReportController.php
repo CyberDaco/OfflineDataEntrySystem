@@ -34,7 +34,8 @@ class ReportController extends Controller
                 DB::raw('DAYOFYEAR(start) as julian'),
                 DB::raw('TIME_FORMAT(SEC_TO_TIME(SUM(UNIX_TIMESTAMP(end) - UNIX_TIMESTAMP(start))),"%h %i") as hours'),
                 'entry_logs.action','job_numbers.job_number',
-                'job_numbers.stats_output','entry_logs.start','entry_logs.end','entry_logs.user_id')
+                'job_numbers.stats_output','entry_logs.start','entry_logs.end','entry_logs.user_id',
+                DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
             ->groupBy('job_number','user_id','action')
             ->orderBy('job_number')
             ->get();
@@ -58,8 +59,17 @@ class ReportController extends Controller
                 fwrite($file,"0");
             }
             fwrite($file,$row->julian."      ");
-            fwrite($file,$row->hours."          ");
-            fwrite($file,$row->hours);
+
+            fwrite($file,sprintf("%02d", intval($row->seconds/3600)));
+            fwrite($file," ");
+            fwrite($file,sprintf($row->seconds/60%60));
+
+            fwrite($file,"          ");
+
+            fwrite($file,sprintf("%02d", intval($row->seconds/3600)));
+            fwrite($file," ");
+            fwrite($file,sprintf($row->seconds/60%60));
+
             for($i=strlen($row->records);$i <= 4; $i++){
                 fwrite($file," ");
             }
