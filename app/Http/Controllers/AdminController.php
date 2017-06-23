@@ -176,8 +176,6 @@ class AdminController extends Controller
         }
 
         return view('admin.report.production',compact('results','from','to','user_id'));
-
-
     }
 
     public function report_stats(Request $request){
@@ -275,6 +273,30 @@ class AdminController extends Controller
         return view('admin.report.job_export',compact('results','from','to','app'));
     }
 
+    public function report_job_number(Request $request){
+
+        $from = $request->date_from ? Carbon::createFromFormat('d/m/Y', $request->date_from)->startOfDay() : Carbon::now()->startOfMonth();
+        $to = $request->date_to ? Carbon::createFromFormat('d/m/Y', $request->date_to)->endOfDay() : Carbon::now();
+        $job_number = $request->job_number ? $request->job_number : "";
+
+        if($job_number == ""){
+            $results = collect(DB::table('batches')
+                ->select('jobnumber',DB::raw('SUM(records) as records'),'hours')
+                ->whereBetween('exported_at',[$from,$to])
+                ->where('job_status','Closed')
+                ->get());
+
+        } else {
+            $results = collect(DB::table('batches')
+                ->select('jobnumber',DB::raw('SUM(records) as records'),'hours')
+                ->whereBetween('exported_at',[$from,$to])
+                ->where('job_status','Closed')
+                ->where('jobnumber',$job_number)
+                ->get());
+        }
+
+        return view('admin.report.job_number',compact('results','from','to','job_number'));
+    }
 
     /** Setup Menu */
     public function showuser(){

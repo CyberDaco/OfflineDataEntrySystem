@@ -39,7 +39,8 @@ class RecordJobExport
             'export_date'=>Carbon::now(),
             'exported_at'=>Carbon::now(),
             'records'=>$records->count(),
-            'jobnumber'=>$job_number->job_number
+            'jobnumber'=>$job_number->job_number,
+            'export_user_id'=> $event->user_id
             ]);
 
     }
