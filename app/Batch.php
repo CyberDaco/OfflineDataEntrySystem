@@ -13,7 +13,7 @@ class Batch extends Model
      * Relationship to Interest
      */
      
-    protected $fillable = ['application','job_name','batch_date','jobnumber','job_status','remarks','records','export_date'];
+    protected $fillable = ['application','job_name','batch_date','jobnumber','job_status','remarks','records','export_date','hours','exported_at','export_user_id'];
     
     protected $dates = ['batch_date'];
      

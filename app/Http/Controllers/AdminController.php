@@ -261,14 +261,14 @@ class AdminController extends Controller
             $results = Batch::where('job_status','Closed')
                 ->whereBetween('export_date',[$from->format('Y-m-d'),$to->format('Y-m-d')])
                 ->orderBy('application','asc')
-                ->orderBy('export_date','asc')
+                ->orderBy('exported_at','asc')
                 ->get();
         } else {
             $results = Batch::where('job_status','Closed')
                 ->where('application',$app)
                 ->whereBetween('export_date',[$from->format('Y-m-d'),$to->format('Y-m-d')])
                 ->orderBy('application','asc')
-                ->orderBy('export_date','asc')
+                ->orderBy('exported_at','asc')
                 ->get();
         }
 
