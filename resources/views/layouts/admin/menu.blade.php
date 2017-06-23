@@ -52,8 +52,7 @@
                     <li><a href="{{ url('/admin/report/recs_per_hour') }}">Records Per Hour</a></li>
                     <li><a href="{{ url('/admin/report/job_export') }}">Job Export</a></li>
                     <li><a href="{{ url('/admin/report/job_number') }}">Job Number Report</a></li>
-
-                    <li><a href="{{ url('/news/costanalysis') }}">Cost Analysis</a></li>
+                    <li><a href="{{ url('/admin/report/productivity') }}">Productivity Report</a></li>
                 </ul>
             </li>
 

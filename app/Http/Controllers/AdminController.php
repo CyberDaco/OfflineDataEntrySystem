@@ -11,6 +11,7 @@ use App\Publication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\UserLog;
+use App\User;
 
 class AdminController extends Controller
 {
@@ -311,6 +312,19 @@ class AdminController extends Controller
         }
 
         return view('admin.report.job_number',compact('results','from','to','job_number'));
+    }
+
+    public function report_productivity(Request $request){
+        $from = $request->date_from ? Carbon::createFromFormat('d/m/Y', $request->date_from)->startOfDay() : Carbon::now();
+        $to = $request->date_to ? Carbon::createFromFormat('d/m/Y', $request->date_to)->endOfDay() : Carbon::now();
+        $user_id = $request->user_id ? $request->user_id : "";
+
+        if($user_id == ""){
+            $results = User::all();
+        } else {
+            $results = User::where('operator_id',$request->user_id)->get();
+        }
+        return view('admin.report.productivity',compact('results','from','to','user_id'));
     }
 
     /** Setup Menu */
