@@ -107,6 +107,8 @@ class ExportController extends Controller
 
         $filename = 'reanz_'.$batch->export_date_filename;
 
+        event(new ExportJob($batch,$data));
+
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,null,'A2',false,false);

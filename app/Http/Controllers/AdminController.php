@@ -65,7 +65,8 @@ class AdminController extends Controller
                 ->select('recent_sales.batch_id','recent_sales.batch_name', DB::raw('COUNT(recent_sales.batch_name) as records'),
                     DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
                     DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
-                ->where('action','E')
+                ->where('entry_logs.action','E')
+                ->where('entry_logs.batch_id',$batch->id)
                 ->groupBy('recent_sales.batch_name')
                 ->orderBy('recent_sales.state','recent_sales.batch_name')
                 ->get();
@@ -87,10 +88,22 @@ class AdminController extends Controller
 
 
         if($batch){
+            //$results = $batch->reanzs()
+              //  ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
+               // ->groupBy('batch_name')
+               // ->orderBy('batch_name')
+               // ->get();
+
+
             $results = $batch->reanzs()
-                ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-                ->groupBy('batch_name')
-                ->orderBy('batch_name')
+                ->leftJoin('entry_logs', 'entry_logs.record_id', '=', 'reanzs.id')
+                ->select('reanzs.batch_id','reanzs.batch_name', DB::raw('COUNT(reanzs.batch_name) as records'),
+                  DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
+                  DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
+                ->where('entry_logs.action','E')
+                ->where('entry_logs.batch_id',$batch->id)
+                ->groupBy('reanzs.batch_name')
+                ->orderBy('reanzs.batch_name')
                 ->get();
         } else {
             $results = null;
@@ -285,6 +298,7 @@ class AdminController extends Controller
                 ->select('jobnumber',DB::raw('SUM(records) as records'),'hours')
                 ->whereBetween('exported_at',[$from,$to])
                 ->where('job_status','Closed')
+                ->groupBy('jobnumber')
                 ->get());
 
         } else {

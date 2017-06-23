@@ -40,7 +40,7 @@ class RecordJobExport
             ->select(
                 DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
                 DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
-            ->where('batch_id',33)
+            ->where('batch_id',$event->batch->id)
             ->where('action','E')
             ->groupBy('batch_id')
             ->get());
