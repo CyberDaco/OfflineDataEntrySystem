@@ -4,6 +4,7 @@
   @include('components.export',
           ['application'=>'Recent Sales','options'=> \App\Publication::where('application','Recent Sales')->pluck('pub_name','pub_name'),
            'url'=>'recent_sales',
-           'total'=> $batch ? $batch->recent_sales()->count() : ''])
+           'total'=> $batch ? $batch->recent_sales()->count() : '',
+           'lookup' => null])
 @endsection
 
