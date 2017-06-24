@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddColumnEntryTime' => $baseDir . '/database/migrations/2017_06_24_105416_add_column_entry_time.php',
     'AdminUserTableSeeder' => $baseDir . '/database/seeds/AdminUserTableSeeder.php',
     'AlterTableBatchesAddHoursColumn' => $baseDir . '/database/migrations/2017_06_23_112531_alter_table_batches_add_hours_column.php',
     'AlterTableREANZRenameColumnAddColumn' => $baseDir . '/database/migrations/2017_03_25_081203_AlterTableREANZRenameColumnAddColumn.php',

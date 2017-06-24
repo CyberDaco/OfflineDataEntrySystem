@@ -394,6 +394,7 @@ class ComposerStaticInit9bc603bb30d39284dd854d83934649b4
     );
 
     public static $classMap = array (
+        'AddColumnEntryTime' => __DIR__ . '/../..' . '/database/migrations/2017_06_24_105416_add_column_entry_time.php',
         'AdminUserTableSeeder' => __DIR__ . '/../..' . '/database/seeds/AdminUserTableSeeder.php',
         'AlterTableBatchesAddHoursColumn' => __DIR__ . '/../..' . '/database/migrations/2017_06_23_112531_alter_table_batches_add_hours_column.php',
         'AlterTableREANZRenameColumnAddColumn' => __DIR__ . '/../..' . '/database/migrations/2017_03_25_081203_AlterTableREANZRenameColumnAddColumn.php',

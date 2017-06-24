@@ -30,4 +30,7 @@ class UserLog extends Model
         return $this->belongsTo('App\AUNewsAddress');
     }
 
+    public function user(){
+        return $this->belongsTo('App\User','operator_id','user_id');
+    }
 }

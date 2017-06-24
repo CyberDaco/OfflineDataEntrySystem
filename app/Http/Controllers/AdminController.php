@@ -89,14 +89,7 @@ class AdminController extends Controller
 
 
         if($batch){
-            //$results = $batch->reanzs()
-              //  ->select('batch_id','batch_name', DB::raw('COUNT(batch_name) as records'))
-               // ->groupBy('batch_name')
-               // ->orderBy('batch_name')
-               // ->get();
-
-
-            $results = $batch->reanzs()
+              $results = $batch->reanzs()
                 ->leftJoin('entry_logs', 'entry_logs.record_id', '=', 'reanzs.id')
                 ->select('reanzs.batch_id','reanzs.batch_name', DB::raw('COUNT(reanzs.batch_name) as records'),
                   DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
@@ -320,10 +313,13 @@ class AdminController extends Controller
         $user_id = $request->user_id ? $request->user_id : "";
 
         if($user_id == ""){
-            $results = User::all();
+            $results = User::with('entry_logs.job_log')
+                ->get();
         } else {
             $results = User::where('operator_id',$request->user_id)->get();
         }
+
+
         return view('admin.report.productivity',compact('results','from','to','user_id'));
     }
 

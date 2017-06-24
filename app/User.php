@@ -38,8 +38,16 @@ class User extends Authenticatable
     public function eeleave(){
         return $this->hasMany('App\EeLeave','user_id');
     }
+
+    public function entry_logs(){
+        return $this->hasMany('App\UserLog','user_id','operator_id')
+                    ->selectRaw('count(user_id) as count_user, jobnumber_id,user_id,sum(entry_time) as seconds')
+                    ->where('action','E')
+                    ->groupBy('user_id','jobnumber_id');
+    }
     
-    
+
+
     
     
     public function setPasswordAttribute($value){
