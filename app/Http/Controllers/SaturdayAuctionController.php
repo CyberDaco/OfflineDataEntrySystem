@@ -69,6 +69,8 @@ class SaturdayAuctionController extends Controller
 
     public function entry()
     {
+        session()->forget('start');
+        session()->put('start',Carbon::now());
         return view($this->folder.'/entry');
     }
 
@@ -77,6 +79,7 @@ class SaturdayAuctionController extends Controller
         event(new EntryRecordCreated($this->current_batch,'E',session('batch_name'),$record->id,session('jobnumber')->id));
         flash()->info($record->address.' added successfully.');
         session()->put('last_record',$record);
+        session()->put('start',Carbon::now());
         return view($this->folder.'/entry');
     }
 
