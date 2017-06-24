@@ -3,9 +3,11 @@
 namespace App\Listeners;
 
 use App\Events\EntryRecordCreated;
+use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use App\UserLog;
+
 
 class CreateEntryUserLogs
 {
@@ -33,7 +35,8 @@ class CreateEntryUserLogs
             'user_id'=>\Auth::guard("web")->user()->operator_id,
             'jobnumber_id' => $event->jobnumber,
             'start'=>session('start'),
-            'action'=> $event->action
+            'action'=> $event->action,
+            'entry_time'=> strtotime(Carbon::now()) - strtotime(session('start'))
         ]);
         
         

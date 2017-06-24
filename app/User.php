@@ -43,7 +43,8 @@ class User extends Authenticatable
         return $this->hasMany('App\UserLog','user_id','operator_id')
                     ->selectRaw('count(user_id) as count_user, jobnumber_id,user_id,sum(entry_time) as seconds')
                     ->where('action','E')
-                    ->groupBy('user_id','jobnumber_id');
+                    ->groupBy('user_id','jobnumber_id')
+                    ->orderBy('jobnumber_id');
     }
     
 

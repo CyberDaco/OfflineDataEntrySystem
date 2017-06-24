@@ -42,15 +42,13 @@
                 <tr>
                     <th>Staff ID</th>
                     <th>Employee Name</th>
-                    <th>Job Number</th>
-                    <th>1</th>
-                    <th>2</th>
-                    <th>3</th>
-                    <th>4</th>
-                    <th>5</th>
+                    @for ($i = 0; $i < 10; $i++)
+                        <th>Job #</th>
+                        <th>Recs</th>
+                        <th>Time</th>
+                    @endfor
 
-                    <th>6</th>
-                    <th>7</th>
+
 
                 </tr>
                 @foreach($results as $result)
@@ -60,7 +58,7 @@
                         @foreach($result->entry_logs as $data)
                             <td>{{ $data->job_log->job_number }}</td>
                             <td>{{ $data->count_user }}</td>
-                            <td>{{ $data->seconds }}</td>
+                            <td>{{ sprintf('%02d:%02d:%02d', ($data->seconds/3600),($data->seconds/60%60), $data->seconds % 60) }}</td>
                         @endforeach
                     </tr>
                 @endforeach

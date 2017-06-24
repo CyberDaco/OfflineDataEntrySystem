@@ -8,7 +8,7 @@ class UserLog extends Model
 {
     protected $table = "entry_logs";
     
-    protected $fillable = ['batch_name','record_id','user_id','action','start','end','jobnumber_id'];
+    protected $fillable = ['batch_name','record_id','user_id','action','start','end','jobnumber_id','entry_time'];
 
     protected $dates = ['start','end'];
     
