@@ -69,7 +69,6 @@ class SaturdayAuctionController extends Controller
 
     public function entry()
     {
-        session()->forget('start');
         session()->put('start',Carbon::now());
         return view($this->folder.'/entry');
     }
