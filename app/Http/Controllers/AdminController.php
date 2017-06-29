@@ -26,27 +26,27 @@ class AdminController extends Controller
 
     /** Batch Menu */
     public function batch_interest(){
-        $batches = Batch::where('application','Interest Auction Results')->get();
+        $batches = Batch::where('application','Interest Auction Results')->where('job_status','Open')->get();
         return view('admin.batch.interest',compact('batches'));
     }
 
     public function batch_recent_sales(){
-        $batches = Batch::where('application','Recent Sales')->get();
+        $batches = Batch::where('application','Recent Sales')->where('job_status','Open')->get();
         return view('admin.batch.recent_sales',compact('batches'));
     }
 
     public function batch_aunews(){
-        $batches = Batch::where('application','Australian Newspapers')->get();
+        $batches = Batch::where('application','Australian Newspapers')->where('job_status','Open')->get();
         return view('admin.batch.aunews',compact('batches'));
     }
 
     public function batch_reanz(){
-        $batches = Batch::where('application','REA NZ Keying')->get();
+        $batches = Batch::where('application','REA NZ Keying')->where('job_status','Open')->get();
         return view('admin.batch.reanz',compact('batches'));
     }
 
     public function batch_sat_auction(){
-        $batches = Batch::where('application','Saturday Auction')->get();
+        $batches = Batch::where('application','Saturday Auction')->where('job_status','Open')->get();
         return view('admin.batch.sat_auction',compact('batches'));
     }
 
