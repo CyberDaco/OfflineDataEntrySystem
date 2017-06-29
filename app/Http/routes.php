@@ -313,3 +313,11 @@ Route::auth();
  */
 
 Route::get('/admin/email','EmailController@sample');
+
+
+/**
+ * Test Controller
+ * use for testing hehe
+ */
+
+Route::get('/test/storage','TestController@storage');
