@@ -306,3 +306,10 @@ Route::post('/admin/register', 'AdminAuth\AuthController@register');
  * User Auth Controller
  */
 Route::auth();
+
+/**
+ * Email Controller
+ *
+ */
+
+Route::get('/admin/email','EmailController@sample');
