@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use App\Publication;
 use App\Batch;
 use Exception;
+use Mail;
 
 class OpenBatch extends Command
 {
@@ -54,6 +55,15 @@ class OpenBatch extends Command
                 $batch->job_status = 'Open';
                 $batch->save();
             }
+
+            $batches = Batch::where('application',$application)
+                ->where('batch_date',date('Y-m-d'))
+                ->get();
+
+            Mail::send(['html'=>'mail.mail'],['data' => $batches ] , function($message) {
+              $message->to('sunjhen29@yahoo.com', 'Sunday Doctolero')->subject
+              ('Batches Added');
+            });
         }
 
         catch(Exception $e)
