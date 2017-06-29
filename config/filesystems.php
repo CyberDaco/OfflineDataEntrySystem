@@ -62,6 +62,14 @@ return [
             'bucket' => 'your-bucket',
         ],
 
+        'ftp' => [
+            'driver'   => 'ftp',
+            'host'     => '192.168.1.143',
+            'username' => 'ccc',
+            'password' => 'ccc',
+            'port'     => '2121',
+        ],
+
     ],
 
 ];
