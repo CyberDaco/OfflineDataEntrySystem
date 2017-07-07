@@ -65,8 +65,8 @@ return [
         'ftp' => [
             'driver'   => 'ftp',
             'host'     => '192.168.1.143',
-            'username' => 'ccc',
-            'password' => 'ccc',
+            'username' => 'admin',
+            'password' => 'cccdms2016',
             'port'     => '2121',
         ],
 

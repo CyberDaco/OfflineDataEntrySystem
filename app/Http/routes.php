@@ -185,6 +185,11 @@ Route::post('/admin/lookup/natalpha','NatalphaController@import');
 Route::get('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@view');
 Route::post('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@import');
 
+
+/**
+ * Import Menu
+ *
+ */
 Route::get('/admin/import/home_price','ScrapeHomePriceController@view_home_price');
 Route::post('/admin/import/home_price','ScrapeHomePriceController@import');
 
