@@ -145,6 +145,12 @@ Route::get('/admin/report/job_number','AdminController@report_job_number');
 Route::get('/admin/report/productivity','AdminController@report_productivity');
 
 
+/** Import Menu **/
+Route::get('/admin/import/reanz','AdminController@import_reanz');
+
+
+
+
 /**
  * Report Controller
  */
@@ -186,10 +192,7 @@ Route::get('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionContro
 Route::post('/admin/lookup/sat_auction_st_extension','SatAuctionStExtensionController@import');
 
 
-/**
- * Import Menu
- *
- */
+
 Route::get('/admin/import/home_price','ScrapeHomePriceController@view_home_price');
 Route::post('/admin/import/home_price','ScrapeHomePriceController@import');
 

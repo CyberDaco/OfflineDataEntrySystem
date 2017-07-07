@@ -323,6 +323,12 @@ class AdminController extends Controller
         return view('admin.report.productivity',compact('results','from','to','user_id'));
     }
 
+    public function import_reanz(){
+        //return " hi";
+        $results = \Storage::files('reanz/');
+        return view('admin.import.reanz',compact('results'));
+    }
+
     /** Setup Menu */
     public function showuser(){
         return view('admin.sysusers');

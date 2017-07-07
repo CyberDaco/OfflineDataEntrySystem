@@ -96,6 +96,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
+                    <li><a href="{{ url('/admin/import/reanz') }}">REA NZ Keying</a></li>
                     <li><a href="{{ url('/admin/import/home_price') }}">Home Price</a></li>
                 </ul>
             </li>
