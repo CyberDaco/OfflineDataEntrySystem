@@ -147,6 +147,7 @@ Route::get('/admin/report/productivity','AdminController@report_productivity');
 
 /** Import Menu **/
 Route::get('/admin/import/reanz','AdminController@import_reanz');
+Route::post('/admin/import/reanz','ImportController@import_reanz');
 
 
 

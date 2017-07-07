@@ -2,10 +2,10 @@
 
 @section('content')
 
-  @include('components.export',
+  @include('components.import',
            ['application'=>'REA NZ Keying','options'=> \App\Publication::where('application','REA NZ Keying')->pluck('pub_name','pub_name'),
              'url'=>'reanz',
-             'total'=> $batch ? $batch->reanzs->count() : '' ,
+             'total'=> '' ,
              'lookup' => null])
 @endsection
 
