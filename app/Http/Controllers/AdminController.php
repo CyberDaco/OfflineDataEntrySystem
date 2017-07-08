@@ -23,7 +23,11 @@ class AdminController extends Controller
 
     /** Dashboard */
     public function index(){
-        $reanz = Batch::where('job_name','REA NZ Keying')->sum('records');
+        $reanz = Batch::where('job_name','REA NZ Keying')
+            ->whereBetween('exported_at',[Carbon::now()->startOfMonth(),Carbon::now()])
+            ->sum('records');
+
+
         
         return view('admin.dashboard',compact('reanz'));
     }
