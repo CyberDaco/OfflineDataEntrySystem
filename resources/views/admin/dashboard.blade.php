@@ -10,7 +10,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">REA NZ Keying</span>
-          <span class="info-box-number">{{ $reanz }}<small></small></span>
+          <span class="info-box-number">{{ $results->where('job_name','REA NZ Keying')->sum('records') }}<small></small></span>
         </div>
         <!-- /.info-box-content -->
       </div>

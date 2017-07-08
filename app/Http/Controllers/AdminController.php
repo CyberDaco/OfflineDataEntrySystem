@@ -23,13 +23,9 @@ class AdminController extends Controller
 
     /** Dashboard */
     public function index(){
-        $reanz = Batch::where('job_name','REA NZ Keying')
-            ->whereBetween('exported_at',[Carbon::now()->startOfMonth(),Carbon::now()])
-            ->sum('records');
-
-
-        
-        return view('admin.dashboard',compact('reanz'));
+        $results = Batch::whereBetween('exported_at',[Carbon::now()->startOfMonth(),Carbon::now()])
+            ->get();
+        return view('admin.dashboard',compact('results'));
     }
 
     /** Batch Menu */
@@ -332,8 +328,13 @@ class AdminController extends Controller
     }
 
     public function import_reanz(){
-        $results = FileEntry::where('job_name','REA NZ Keying')->get();
+        $results = FileEntry::where('application','REA NZ Keying')->get();
         return view('admin.import.reanz',compact('results'));
+    }
+
+    public function import_recent_sales(){
+        $results = FileEntry::where('application','Recent Sales')->get();
+        return view('admin.import.recent_sales',compact('results'));
     }
 
     /** Setup Menu */

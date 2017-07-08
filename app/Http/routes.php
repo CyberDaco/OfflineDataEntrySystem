@@ -149,7 +149,8 @@ Route::get('/admin/report/productivity','AdminController@report_productivity');
 Route::get('/admin/import/reanz','AdminController@import_reanz');
 Route::post('/admin/import/reanz','ImportController@import_reanz');
 
-
+Route::get('/admin/import/recent_sales','AdminController@import_recent_sales');
+Route::post('/admin/import/recent_sales','ImportController@import_recent_sales');
 
 
 /**
