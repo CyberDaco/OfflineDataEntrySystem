@@ -15,6 +15,7 @@ use App\Http\Requests\ImportRequest;
 use App\Reanz;
 
 use App\FileEntry;
+use App\JobNumber;
 
 class ImportController extends Controller
 {
@@ -72,6 +73,26 @@ class ImportController extends Controller
                 fclose ( $handle );
 
                 $entry->update(['status'=>'Uploaded']);
+
+                $records = $batch->reanzs()->count();
+
+                 $job_number = JobNumber::where('application',$batch->job_name)
+                     ->where('current_month',Carbon::now()->startOfMonth())
+                     ->where('job_date', Carbon::now()->startOfMonth())
+                     ->first();
+
+                $batch->update(['job_status' => 'Closed',
+                     'export_date'=>Carbon::now(),
+                     'exported_at'=>Carbon::now(),
+                     'records'=>$records,
+                     'jobnumber'=>$job_number->job_number,
+                     'export_user_id'=> \Auth::guard('admin')->user()->id
+                 ]);
+
+
+
+
+
                 return redirect()->back();
              } else {
                  flash()->info('File Not Found');
@@ -79,7 +100,7 @@ class ImportController extends Controller
              }
 
         } else {
-            flash()->info('Batch Not Found');
+            flash()->info('Batch Not Found!');
             return redirect()->back()->withInput()->withErrors('Batch Not Found');
         }
 
