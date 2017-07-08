@@ -39,8 +39,8 @@
         <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Recent Sales</span>
-          <span class="info-box-number">760</span>
+          <span class="info-box-text">Saturday Auction</span>
+          <span class="info-box-number">{{ $results->where('application','Saturday Auction')->sum('records') }}</span>
         </div>
         <!-- /.info-box-content -->
       </div>
