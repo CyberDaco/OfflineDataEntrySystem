@@ -152,7 +152,8 @@ Route::post('/admin/import/reanz','ImportController@import_reanz');
 Route::get('/admin/import/recent_sales','AdminController@import_recent_sales');
 Route::post('/admin/import/recent_sales','ImportController@import_recent_sales');
 
-
+Route::get('/admin/import/saturday_auction','AdminController@import_saturday_auction');
+Route::post('/admin/import/saturday_auction','ImportController@import_saturday_auction');
 /**
  * Report Controller
  */

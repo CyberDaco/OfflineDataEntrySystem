@@ -10,7 +10,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">REA NZ Keying</span>
-          <span class="info-box-number">{{ $results->where('job_name','REA NZ Keying')->sum('records') }}<small></small></span>
+          <span class="info-box-number">{{ $results->where('application','REA NZ Keying')->sum('records') }}<small></small></span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -22,8 +22,8 @@
         <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">NZ Newspaper</span>
-          <span class="info-box-number">41,410</span>
+          <span class="info-box-text">Recent Sales</span>
+          <span class="info-box-number">{{ $results->where('application','Recent Sales')->sum('records') }}</span>
         </div>
         <!-- /.info-box-content -->
       </div>
