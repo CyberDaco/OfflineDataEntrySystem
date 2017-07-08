@@ -5,7 +5,7 @@
                 <h3 class="box-title"><strong>{{ $application ? $application : '' }}</strong></h3>
             </div>
             <div class="box-body">
-                <form method="POST">
+                {!! Form::open(array('role'=>'form','url'=>'/admin/import/'.$url,'action'=>'POST', 'files'=>'true'))!!}
                         {!! FOrm::token() !!}
                     <div class="col-md-1">
                         <label for="job_name" class="control-label">Job Name</label>
@@ -20,10 +20,10 @@
                         {!! Form::text('job_date',null,['class'=>'form-control aussie_date', 'autofocus', 'required']) !!}
                     </div>
                     <div class="col-md-2">
-                        {!! Form::file('csv', null, ['class'=>'form-control']) !!}
+                        {!! Form::file('csv', ['class'=>'form-control','required']) !!}
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" class="btn btn-primary">Import</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </div>
                 </form>
             </div><!-- /.box-body -->

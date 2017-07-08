@@ -41,9 +41,25 @@
 
         <!-- Main content -->
         <section class="content">
+            <!-- Validation Error Section -->
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+                    <ul class="alert alert-danger">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @yield('content')
+
         </section>
     </div><!-- /.content-wrapper -->
+
+
 
     @include('layouts.admin.footer')
     @include('layouts.admin.control-sidebar')

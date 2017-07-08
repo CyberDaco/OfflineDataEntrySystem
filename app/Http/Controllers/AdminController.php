@@ -324,7 +324,6 @@ class AdminController extends Controller
     }
 
     public function import_reanz(){
-        //return " hi";
         $results = \Storage::files('reanz/');
         return view('admin.import.reanz',compact('results'));
     }

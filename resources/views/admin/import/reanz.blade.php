@@ -4,8 +4,6 @@
 
   @include('components.import',
            ['application'=>'REA NZ Keying','options'=> \App\Publication::where('application','REA NZ Keying')->pluck('pub_name','pub_name'),
-             'url'=>'reanz',
-             'total'=> '' ,
-             'lookup' => null])
+           'url'=>'reanz'])
 @endsection
 
