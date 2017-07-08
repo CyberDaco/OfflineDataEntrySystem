@@ -21,7 +21,8 @@ class ImportController extends Controller
 {
     public function import_reanz(ImportRequest $request){
         $job_date = Carbon::createFromFormat('d/m/Y',$request->job_date);
-        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))->first();
+        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))
+            ->where('job_status','Open')->first();
 
         if ($batch){
             $file = $request->file('csv');

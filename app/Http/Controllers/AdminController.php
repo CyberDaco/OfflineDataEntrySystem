@@ -23,7 +23,8 @@ class AdminController extends Controller
 
     /** Dashboard */
     public function index(){
-        $reanz = Reanz::count();
+        $reanz = Batch::where('job_name','REA NZ Keying')->sum('records');
+        
         return view('admin.dashboard',compact('reanz'));
     }
 
