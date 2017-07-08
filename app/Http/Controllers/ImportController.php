@@ -14,6 +14,7 @@ use App\Http\Requests\ImportRequest;
 
 use App\Reanz;
 
+use App\FileEntry;
 
 class ImportController extends Controller
 {
@@ -22,8 +23,21 @@ class ImportController extends Controller
         $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))->first();
 
         if ($batch){
-            $filename = $request->file('csv')->getClientOriginalName();
+            $file = $request->file('csv');
+            $filename = $file->getClientOriginalName();
             $request->file('csv')->move(base_path() . '/storage/app/reanz/',$filename);
+
+            //Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
+            $entry = new Fileentry();
+            $entry->batch_id = $batch->id;
+            $entry->mime = $file->getClientMimeType();
+            $entry->original_filename = $file->getClientOriginalName();
+            $entry->filename = $file->getFilename().'.'.$file->getClientOriginalExtension();
+            $entry->status = "Pending";
+            $entry->application = $batch->application;
+            $entry->job_name = $batch->job_name;
+            $entry->operator_id = \Auth::guard('admin')->user()->id;
+            $entry->save();
 
              if (($handle = fopen ( base_path() . '/storage/app/reanz/'.$filename, 'r' )) !== FALSE) {
 
@@ -56,11 +70,14 @@ class ImportController extends Controller
                     $csv_data->save ();
                 }
                 fclose ( $handle );
-                return view('admin.import.reanz');
-            } else {
+
+                $entry->update(['status'=>'Uploaded']);
+                return redirect()->back();
+             } else {
                  flash()->info('File Not Found');
                  return redirect()->back()->withInput()->withErrors('File Not Found');
              }
+
         } else {
             flash()->info('Batch Not Found');
             return redirect()->back()->withInput()->withErrors('Batch Not Found');

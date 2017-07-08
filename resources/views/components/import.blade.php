@@ -31,3 +31,34 @@
     </div>
 </div>
 
+@if($results)
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                            <th>Batch ID</th>
+                            <th>Filename</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        @foreach($results as $result)
+                            <tr>
+                                <td>{{ $result->batch_id }}</td>
+                                <td>{{ $result->original_filename }}</td>
+                                <td>{{ $result->status }}</td>
+                                <td>{{ $result->created_at }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer clearfix">
+                    <strong><span>{{ $results->count() }} Record(s)Found</span></strong>
+                </div>
+            </div> <!-- /.box -->
+        </div>
+    </div>
+@endif
+

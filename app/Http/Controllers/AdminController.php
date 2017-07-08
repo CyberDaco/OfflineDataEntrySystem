@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\UserLog;
 use App\User;
+use App\FileEntry;
 
 class AdminController extends Controller
 {
@@ -324,7 +325,7 @@ class AdminController extends Controller
     }
 
     public function import_reanz(){
-        $results = \Storage::files('reanz/');
+        $results = FileEntry::where('job_name','REA NZ Keying')->get();
         return view('admin.import.reanz',compact('results'));
     }
 
