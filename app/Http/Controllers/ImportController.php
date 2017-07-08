@@ -23,26 +23,21 @@ class ImportController extends Controller
 {
     public function import_reanz(ImportRequest $request){
         $job_date = Carbon::createFromFormat('d/m/Y',$request->job_date);
-        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))
-            ->where('job_status','Open')->first();
+        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))->where('job_status','Open')->first();
         $folder = $request->job_name;
 
         if ($batch){
+            $job_number = $this->find_job_number($batch);
+
+            if(!$job_number){
+                return redirect()->back()->withInput()->withErrors('Job Number not Found!!');
+            }
+
             $file = $request->file('csv');
             $filename = $file->getClientOriginalName();
             $request->file('csv')->move(base_path() . '/storage/app/reanz/'.$folder.'/',$filename);
 
-            //Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
-            $entry = new Fileentry();
-            $entry->batch_id = $batch->id;
-            $entry->mime = $file->getClientMimeType();
-            $entry->original_filename = $file->getClientOriginalName();
-            $entry->filename = $file->getFilename().'.'.$file->getClientOriginalExtension();
-            $entry->status = "Pending";
-            $entry->application = $batch->application;
-            $entry->job_name = $batch->job_name;
-            $entry->operator_id = \Auth::guard('admin')->user()->id;
-            $entry->save();
+            $entry = $this->create_file_entry($batch,$file);
 
              if (($handle = fopen ( base_path() . '/storage/app/reanz/'.$folder.'/'.$filename, 'r' )) !== FALSE) {
 
@@ -80,18 +75,7 @@ class ImportController extends Controller
 
                 $records = $batch->reanzs()->count();
 
-                 $job_number = JobNumber::where('application',$batch->job_name)
-                     ->where('current_month',Carbon::now()->startOfMonth())
-                     ->where('job_date', Carbon::now()->startOfMonth())
-                     ->first();
-
-                $batch->update(['job_status' => 'Closed',
-                     'export_date'=>Carbon::now(),
-                     'exported_at'=>Carbon::now(),
-                     'records'=>$records,
-                     'jobnumber'=>$job_number->job_number,
-                     'export_user_id'=> \Auth::guard('admin')->user()->id
-                 ]);
+                $this->closed_batch($records,$batch,$job_number);
 
                 return redirect()->back();
              } else {
@@ -108,29 +92,24 @@ class ImportController extends Controller
 
     public function import_recent_sales(ImportRequest $request){
         $job_date = Carbon::createFromFormat('d/m/Y',$request->job_date);
-        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))
-            ->where('job_status','Open')->first();
+        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))->where('job_status','Open')->first();
         $folder = $request->job_name;
 
         if ($batch){
+            $job_number = $this->find_job_number($batch);
+
+            if(!$job_number){
+                return redirect()->back()->withInput()->withErrors('Job Number not Found!!');
+            }
+
             $file = $request->file('csv');
             $filename = $file->getClientOriginalName();
             $request->file('csv')->move(base_path() . '/storage/app/recent_sales/'.$folder.'/',$filename);
 
-            //Storage::disk('local')->put($file->getFilename().'.'.$extension,  File::get($file));
-            $entry = new Fileentry();
-            $entry->batch_id = $batch->id;
-            $entry->mime = $file->getClientMimeType();
-            $entry->original_filename = $file->getClientOriginalName();
-            $entry->filename = $file->getFilename().'.'.$file->getClientOriginalExtension();
-            $entry->status = "Pending";
-            $entry->application = $batch->application;
-            $entry->job_name = $batch->job_name;
-            $entry->operator_id = \Auth::guard('admin')->user()->id;
-            $entry->save();
+
+            $entry = $this->create_file_entry($batch,$file);
 
             if (($handle = fopen ( base_path() . '/storage/app/recent_sales/'.$folder.'/'.$filename, 'r' )) !== FALSE) {
-
                 while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
                     $csv_data = new Recent_Sale();
                     $csv_data->batch_name = 'IMPORTED';
@@ -160,18 +139,7 @@ class ImportController extends Controller
 
                 $records = $batch->recent_sales()->count();
 
-                $job_number = JobNumber::where('application',$batch->job_name)
-                    ->where('current_month',Carbon::now()->startOfMonth())
-                    ->where('job_date', Carbon::now()->startOfMonth())
-                    ->first();
-
-                $batch->update(['job_status' => 'Closed',
-                    'export_date'=>Carbon::now(),
-                    'exported_at'=>Carbon::now(),
-                    'records'=>$records,
-                    'jobnumber'=>$job_number->job_number,
-                    'export_user_id'=> \Auth::guard('admin')->user()->id
-                ]);
+                $this->closed_batch($records,$batch,$job_number);
 
                 return redirect()->back();
             } else {
@@ -184,4 +152,37 @@ class ImportController extends Controller
             return redirect()->back()->withInput()->withErrors('Batch Not Found');
         }
     }
+
+    private function create_file_entry($batch,$file){
+        $entry = new Fileentry();
+        $entry->batch_id = $batch->id;
+        $entry->mime = $file->getClientMimeType();
+        $entry->original_filename = $file->getClientOriginalName();
+        $entry->filename = $file->getFilename().'.'.$file->getClientOriginalExtension();
+        $entry->status = "Pending";
+        $entry->application = $batch->application;
+        $entry->job_name = $batch->job_name;
+        $entry->operator_id = \Auth::guard('admin')->user()->id;
+        $entry->save();
+        return $entry;
+    }
+
+    private function closed_batch($records,$batch,$job_number){
+          $batch->update(['job_status' => 'Closed',
+            'export_date'=>Carbon::now(),
+            'exported_at'=>Carbon::now(),
+            'records'=>$records,
+            'jobnumber'=>$job_number->job_number,
+            'export_user_id'=> \Auth::guard('admin')->user()->id
+        ]);
+    }
+
+    private function find_job_number($batch){
+        $job_number = JobNumber::where('application',$batch->job_name)
+            ->where('current_month',Carbon::now()->startOfMonth())
+            ->where('job_date', Carbon::now()->startOfMonth())
+            ->first();
+        return $job_number;
+    }
+
 }
