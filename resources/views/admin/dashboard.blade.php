@@ -9,8 +9,8 @@
         <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">AU Newspaper</span>
-          <span class="info-box-number">90<small>%</small></span>
+          <span class="info-box-text">REA NZ Keying</span>
+          <span class="info-box-number">{{ $reanz }}<small></small></span>
         </div>
         <!-- /.info-box-content -->
       </div>

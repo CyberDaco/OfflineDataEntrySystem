@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\UserLog;
 use App\User;
 use App\FileEntry;
+use App\Reanz;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,8 @@ class AdminController extends Controller
 
     /** Dashboard */
     public function index(){
-        return view('admin.dashboard');
+        $reanz = Reanz::count();
+        return view('admin.dashboard',compact('reanz'));
     }
 
     /** Batch Menu */
