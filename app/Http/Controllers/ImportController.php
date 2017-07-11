@@ -216,6 +216,78 @@ class ImportController extends Controller
         }
     }
 
+    public function import_interest(ImportRequest $request){
+        $job_date = Carbon::createFromFormat('d/m/Y',$request->job_date);
+        $batch = Batch::where('job_name',$request->job_name)->where('batch_date',$job_date->format('Y-m-d'))->where('job_status','Open')->first();
+        $folder = $request->job_name;
+
+        if ($batch){
+            $job_number = $this->find_job_number($batch);
+
+            if(!$job_number){
+                return redirect()->back()->withInput()->withErrors('Job Number not Found!!');
+            }
+
+            $file = $request->file('csv');
+            $filename = $file->getClientOriginalName();
+            $request->file('csv')->move(base_path() . '/storage/app/interest/'.$folder.'/',$filename);
+
+
+            $entry = $this->create_file_entry($batch,$file);
+
+            if (($handle = fopen ( base_path() . '/storage/app/interest/'.$folder.'/'.$filename, 'r' )) !== FALSE) {
+
+                if (strtoupper($request->job_name) == 'INTEREST AUCTION RESULTS'){
+                    $column = 1;
+                } else {
+                    $column = 0;
+                }
+
+                while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
+                    $csv_data = new Recent_Sale();
+                    $csv_data->batch_name = 'IMPORTED';
+                    //$csv_data->state = $data[0 + $column];
+                    $csv_data->unit_no = $data[1 - $column];
+                    $csv_data->street_no = $data[2 - $column];
+                    $csv_data->street_name = $data[3 - $column ];
+                    $csv_data->street_ext = $data[4 - $column];
+                    $csv_data->street_direction = $data[5 - $column];
+                    $csv_data->suburb = $data[6 - $column];
+                    $csv_data->post_code = $data[7 - $column];
+                    $csv_data->property_type = $data[8 - $column];
+                    $csv_data->sale_type = $data[9 - $column];
+                    $csv_data->sold_price = $data[10 - $column];
+                    $csv_data->contract_date = $data[11 - $column];
+                    $csv_data->agency_name = $data[13 - $column];
+                    $csv_data->bedroom = $data[14 - $column] ? $data[14 - $column] : '';
+                    $csv_data->bathroom = $data[15 - $column] == null ? $data[15 - $column] : '';
+                    if($column != 1) {
+                        $csv_data->car = $data[16 - $column] ? $data[16 - $column] : '';
+                    }
+                    $csv_data->status = 'E';
+                    $csv_data->batch_id = $batch->id;
+                    $csv_data->save ();
+                }
+                fclose ( $handle );
+
+                $entry->update(['status'=>'Uploaded']);
+
+                $records = $batch->recent_sales()->count();
+
+                $this->closed_batch($records,$batch,$job_number);
+
+                return redirect()->back();
+            } else {
+                flash()->info('File Not Found');
+                return redirect()->back()->withInput()->withErrors('File Not Found');
+            }
+
+        } else {
+            flash()->info('Batch Not Found!');
+            return redirect()->back()->withInput()->withErrors('Batch Not Found');
+        }
+    }
+
     private function create_file_entry($batch,$file){
         $entry = new Fileentry();
         $entry->batch_id = $batch->id;

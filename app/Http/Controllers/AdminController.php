@@ -342,6 +342,11 @@ class AdminController extends Controller
         return view('admin.import.saturday_auction',compact('results'));
     }
 
+    public function import_interest(){
+        $results = FileEntry::where('application','Interest Auction Results')->get();
+        return view('admin.import.interest',compact('results'));
+    }
+
     /** Setup Menu */
     public function showuser(){
         return view('admin.sysusers');
