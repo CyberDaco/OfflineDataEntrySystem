@@ -22,6 +22,8 @@ class HomePriceController extends Controller
         HomePrice::truncate();
 
         if (($handle = fopen ( base_path() . '/storage/upload/home_price/'.$filename, 'r' )) !== FALSE) {
+            $headers = fgetcsv($handle, 1000, ",");
+
             while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
                 $csv_data = new HomePrice();
                 $csv_data->state = $data [0];
