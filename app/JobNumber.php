@@ -36,4 +36,5 @@ class JobNumber extends Model
     public function getCurrentPublicationDateFormatAttribute(){
         return Carbon::parse($this->attributes['job_date'])->format('F Y');
     }
+
 }

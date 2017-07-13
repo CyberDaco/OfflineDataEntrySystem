@@ -31,6 +31,6 @@ class UserLog extends Model
     }
 
     public function user(){
-        return $this->belongsTo('App\User','operator_id','user_id');
+        return $this->belongsTo('App\User','user_id','operator_id');
     }
 }

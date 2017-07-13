@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\JobNumber;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -15,6 +16,8 @@ use App\User;
 use App\FileEntry;
 use App\Reanz;
 
+
+
 class AdminController extends Controller
 {
     public function __construct(){
@@ -25,7 +28,28 @@ class AdminController extends Controller
     public function index(){
         $results = Batch::whereBetween('exported_at',[Carbon::now()->startOfMonth(),Carbon::now()])
             ->get();
-        return view('admin.dashboard',compact('results'));
+
+        $active_users = UserLog::with('user','log')
+            ->whereBetween('created_at',[Carbon::now()->subMinutes(3),Carbon::now()])
+            ->groupBy('id')
+            ->get();
+
+        $job_numbers = JobNumber::where('current_month',Carbon::now()->startOfMonth()->toDateString())->get();
+
+        $batches = DB::table('batches')
+            ->select('application','job_status', DB::raw('count(*) as open_batches'))
+            ->where('job_status','Open')
+            ->groupBy('application')
+            ->get();
+
+        $exports = Batch::where('job_status','Closed')
+            ->where('export_date',Carbon::now())
+            ->orderBy('id','desc')->get();
+
+
+        $bg_color = ['bg-yellow','bg-green','bg-aqua','bg-red','bg-blue','bg-purple','bg-fuchsia','bg-maroon'];
+
+        return view('admin.dashboard',compact('results','active_users','job_numbers','bg_color','batches','exports'));
     }
 
     /** Batch Menu */

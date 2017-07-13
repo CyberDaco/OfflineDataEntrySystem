@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Illuminate\Support\Facades\Cache;
+
 class User extends Authenticatable
 {
     /**
@@ -46,10 +48,16 @@ class User extends Authenticatable
                     ->groupBy('user_id','jobnumber_id')
                     ->orderBy('jobnumber_id');
     }
-    
 
 
-    
+    public function isOnline()
+    {
+        return Cache::has('user-is-online-' . $this->id);
+
+    }
+
+
+
     
     public function setPasswordAttribute($value){
         $value != '' ? $this->attributes['password'] = bcrypt($value)    : $this->attributes['password'] = null;
