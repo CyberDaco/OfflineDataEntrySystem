@@ -57,12 +57,7 @@
                                 <td>{{ $result->batch_name }}</td>
                                 <td class="text-center">{{ $result->records }}</td>
                                 <td class="text-center">{{ $result->hours }}</td>
-                                <td>
-                                    <div class="progress">
-                                        <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ $lookup == null ? '100' : ($result->records / $lookup->where('suburb','REGEXP','^['.substr($result->batch_name,0,3) .'].*$')->count())*100  }}%">
-                                        </div>
-                                    </div>
-                                                                    </td>
+                                <td></td>
                             </tr>
                         @endforeach
                         <tr>
