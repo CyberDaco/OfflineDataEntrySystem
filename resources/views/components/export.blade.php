@@ -62,8 +62,7 @@
                                         <div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{ $lookup == null ? '100' : ($result->records / $lookup->where('suburb','REGEXP','^['.substr($result->batch_name,0,3) .'].*$')->count())*100  }}%">
                                         </div>
                                     </div>
-                                    <small>{{ $lookup == null ? '100.00' : number_format(($result->records / $lookup->where('suburb','REGEXP','^['.substr($result->batch_name,0,3) .'].*$')->count())*100,2)  }}%</small>
-                                </td>
+                                                                    </td>
                             </tr>
                         @endforeach
                         <tr>
@@ -71,7 +70,7 @@
                             <td></td>
                             <td>Total Records</td>
                             <td class="text-center"><strong>{{ $total }}</strong></td>
-                            <td class="text-center"><strong>{{ $results->sum('seconds') != 0 ? sprintf('%02d:%02d:%02d', ($results->sum('seconds')/3600),($results->sum('seconds')/60%60), $results->sum('seconds')%60) : '0' }}</strong></td>
+                            <td class="text-center"><strong></strong></td>
                             <td></td>
                         </tr>
                     </table>
