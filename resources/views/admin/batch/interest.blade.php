@@ -45,7 +45,7 @@
 
                             <td>
                                 <button class="btn btn-warning btn-xs btn-detail open-modal" data-toggle="modal" data-target="#myModal" value="{{$batch->id}}">Modify</button>
-                                <!-- <button class="btn btn-danger btn-xs btn-delete delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $batch->id }}">Delete</button> -->
+                                <button class="btn btn-danger btn-xs btn-delete delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $batch->id }}">Delete</button>
 
                             </td>
                         </tr>
