@@ -23,6 +23,7 @@ class SatAuctionController extends Controller
         Sat_Auction::truncate();
 
         if (($handle = fopen ( base_path() . '/storage/upload/sat_auction/'.$filename, 'r' )) !== FALSE) {
+            $headers = fgetcsv($handle, 1000, ",");
             while ( ($data = fgetcsv ( $handle, 1000, ',' )) !== FALSE ) {
                 $csv_data = new Sat_Auction();
                 $csv_data->state = $data [0];
