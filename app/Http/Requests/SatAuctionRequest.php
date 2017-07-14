@@ -37,7 +37,7 @@ class SatAuctionRequest extends Request
             'property_type'=>'required',
             'post_code' => 'required',
             'contract_date' => 'required|date_format:d/m/Y',
-            'agency_name' => 'min:2|required',
+            'agency_name' => 'min:2',
             'bedroom' => 'max:2',
             'bathroom' => 'max:2',
             'car' => 'max:2',

@@ -103,7 +103,7 @@
             {!! Form::label('agency_name','Agency Name',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-5 col-md-4">
-            {!! Form::text('agency_name',null,['class'=>'form-control input-sm', 'list'=>'agency','required']) !!}
+            {!! Form::text('agency_name',null,['class'=>'form-control input-sm', 'list'=>'agency']) !!}
         </div>
     </div>
 
