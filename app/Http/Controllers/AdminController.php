@@ -31,8 +31,9 @@ class AdminController extends Controller
 
         $active_users = UserLog::with('user','log')
             ->whereBetween('created_at',[Carbon::now()->subMinutes(3),Carbon::now()])
-            ->groupBy('id')
+            ->groupBy('user_id')
             ->get();
+        
 
         $job_numbers = JobNumber::where('current_month',Carbon::now()->startOfMonth()->toDateString())->get();
 
