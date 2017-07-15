@@ -33,7 +33,6 @@ class AdminController extends Controller
             ->whereBetween('created_at',[Carbon::now()->subMinutes(3),Carbon::now()])
             ->groupBy('user_id')
             ->get();
-        
 
         $job_numbers = JobNumber::where('current_month',Carbon::now()->startOfMonth()->toDateString())->get();
 
@@ -44,9 +43,8 @@ class AdminController extends Controller
             ->get();
 
         $exports = Batch::where('job_status','Closed')
-            ->where('export_date',Carbon::now())
+            ->where('export_date',Carbon::now()->toDateString())
             ->orderBy('id','desc')->get();
-
 
         $bg_color = ['bg-yellow','bg-green','bg-aqua','bg-red','bg-blue','bg-purple','bg-fuchsia','bg-maroon'];
 
