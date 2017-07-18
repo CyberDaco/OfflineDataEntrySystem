@@ -78,8 +78,13 @@ class ExportController extends Controller
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
-        $filename = $batch->export_date_filename.'_vic_ccc';
+        if ($batch->job_name == 'Real Estate View'){
+            $file_extension = '_vic_ccc';
+        } else {
+            $file_extension = '_nsw_ccc';
+        }
 
+        $filename = $batch->export_date_filename.$file_extension;
 
         event(new ExportJob($batch,$data));
 
