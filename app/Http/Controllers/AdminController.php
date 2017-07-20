@@ -90,7 +90,7 @@ class AdminController extends Controller
         if($batch){
             $results = $batch->recent_sales()
                 ->leftJoin('entry_logs', 'entry_logs.record_id', '=', 'recent_sales.id')
-                ->select('recent_sales.batch_id','recent_sales.batch_name', DB::raw('COUNT(recent_sales.batch_name) as records'),
+                ->select(DB::raw("GROUP_CONCAT(DISTINCT(entry_logs.user_id),',') as operators "),'recent_sales.batch_id','recent_sales.batch_name', DB::raw('COUNT(recent_sales.batch_name) as records'),
                     DB::raw('SEC_TO_TIME(SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start))) as hours'),
                     DB::raw('SUM(UNIX_TIMESTAMP(entry_logs.end) - UNIX_TIMESTAMP(entry_logs.start)) as seconds'))
                 ->where('entry_logs.action','E')
