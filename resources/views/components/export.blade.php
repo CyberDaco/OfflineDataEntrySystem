@@ -66,6 +66,7 @@
                             <td></td>
                             <td></td>
                             <td>Total Records</td>
+                            <th></th>
                             <td class="text-center"><strong>{{ $total }}</strong></td>
                             <td class="text-center"><strong></strong></td>
                             <td></td>
