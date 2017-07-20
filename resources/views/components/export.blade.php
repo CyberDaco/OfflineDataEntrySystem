@@ -46,6 +46,7 @@
                             <th>Job Name</th>
                             <th>Job Date</th>
                             <th>Batch Name</th>
+                            <th>Operators</th>
                             <th class="text-center">Records</th>
                             <th class="text-center">Hours</th>
                             <th>Status</th>
@@ -55,6 +56,7 @@
                                 <td>{{ $batch->job_name }}</td>
                                 <td>{{ $batch->batch_date }}</td>
                                 <td>{{ $result->batch_name }}</td>
+                                <td>{{ $result->operators }}</td>
                                 <td class="text-center">{{ $result->records }}</td>
                                 <td class="text-center">{{ $result->hours }}</td>
                                 <td></td>
