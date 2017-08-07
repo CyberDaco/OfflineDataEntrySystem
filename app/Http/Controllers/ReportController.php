@@ -45,7 +45,7 @@ class ReportController extends Controller
         foreach($export as $row)
         {
             fwrite($file,$row->action."       ");
-            fwrite($file,"0".$row->job_number."        ");
+            fwrite($file,"O".$row->job_number."        ");
             for($i=strlen($row->user_id);$i <= 2; $i++){
                 fwrite($file,"0");
             }
