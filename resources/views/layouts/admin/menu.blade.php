@@ -53,6 +53,7 @@
                     <li><a href="{{ url('/admin/report/job_export') }}">Job Export</a></li>
                     <li><a href="{{ url('/admin/report/job_number') }}">Job Number Report</a></li>
                     <li><a href="{{ url('/admin/report/productivity') }}">Productivity Report</a></li>
+                    <li><a href="{{ url('/admin/report/dtr') }}">Daily Time Record</a></li>
                 </ul>
             </li>
 

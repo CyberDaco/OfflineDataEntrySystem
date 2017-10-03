@@ -10,6 +10,8 @@ use Storage;
 
 use Carbon\Carbon;
 
+use App\Dtr;
+
 
 class TestController extends Controller
 {
@@ -35,7 +37,9 @@ class TestController extends Controller
 
 
     public function dtr(){
-        
+        $results = Dtr::all();
+
+        return $results;
     }
 
 

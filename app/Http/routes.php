@@ -143,6 +143,7 @@ Route::get('/admin/report/recs_per_hour','AdminController@report_recs_per_hour')
 Route::get('/admin/report/job_export','AdminController@report_job_export');
 Route::get('/admin/report/job_number','AdminController@report_job_number');
 Route::get('/admin/report/productivity','AdminController@report_productivity');
+Route::get('/admin/report/dtr','AdminController@dtr');
 
 
 /** Import Menu **/

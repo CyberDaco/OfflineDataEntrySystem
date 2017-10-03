@@ -350,6 +350,10 @@ class AdminController extends Controller
         return view('admin.report.productivity',compact('results','from','to','user_id'));
     }
 
+    public function dtr(Request $request){
+       retun view('admin.report.dtr');
+    }
+
     public function import_reanz(){
         $results = FileEntry::where('application','REA NZ Keying')->get();
         return view('admin.import.reanz',compact('results'));
