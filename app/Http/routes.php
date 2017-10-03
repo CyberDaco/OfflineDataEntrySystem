@@ -336,3 +336,4 @@ Route::get('/admin/email','EmailController@sample');
  */
 
 Route::get('/test/storage','TestController@storage');
+Route::get('/test/dtr','TestController@dtr');
