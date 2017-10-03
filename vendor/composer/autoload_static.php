@@ -406,6 +406,7 @@ class ComposerStaticInit9bc603bb30d39284dd854d83934649b4
         'CreateAdminsTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_11_225430_create_admins_table.php',
         'CreateApplicationsTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_25_065932_create_applications_table.php',
         'CreateBatchesTable' => __DIR__ . '/../..' . '/database/migrations/2016_10_02_061322_create_batches_table.php',
+        'CreateDtrTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_03_094945_create_dtr_table.php',
         'CreateEntryLogsTable' => __DIR__ . '/../..' . '/database/migrations/2016_11_15_132201_create_entry_logs_table.php',
         'CreateFileentriesTable' => __DIR__ . '/../..' . '/database/migrations/2017_07_08_101348_create_fileentries_table.php',
         'CreateHomePricesTable' => __DIR__ . '/../..' . '/database/migrations/2017_04_29_130652_create_home_prices_table.php',
