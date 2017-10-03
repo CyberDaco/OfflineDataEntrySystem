@@ -15,6 +15,7 @@ use App\UserLog;
 use App\User;
 use App\FileEntry;
 use App\Reanz;
+use App\Dtr;
 
 
 
@@ -351,7 +352,9 @@ class AdminController extends Controller
     }
 
     public function dtr(Request $request){
-       retun view('admin.report.dtr');
+        $results = Dtr::all();
+
+        return view('admin.report.dtr',compact('results'));
     }
 
     public function import_reanz(){
