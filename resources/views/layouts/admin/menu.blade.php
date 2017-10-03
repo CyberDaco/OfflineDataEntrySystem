@@ -102,6 +102,7 @@
                     <li><a href="{{ url('/admin/import/saturday_auction') }}">Saturday Auction</a></li>
                     <li><a href="{{ url('/admin/import/interest') }}">Interest Auction Results</a></li>
                     <li><a href="{{ url('/admin/import/home_price') }}">Home Price</a></li>
+                    <li><a href="{{ url('/admin/import/dtr') }}">DTR</a></li>
                 </ul>
             </li>
 

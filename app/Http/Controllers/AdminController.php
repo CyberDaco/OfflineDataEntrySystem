@@ -352,8 +352,7 @@ class AdminController extends Controller
     }
 
     public function dtr(Request $request){
-        $results = Dtr::all();
-
+        $results = Dtr::orderBy('operators')->get();
         return view('admin.report.dtr',compact('results'));
     }
 
@@ -376,6 +375,13 @@ class AdminController extends Controller
         $results = FileEntry::where('application','Interest Auction Results')->get();
         return view('admin.import.interest',compact('results'));
     }
+
+    public function import_dtr(){
+        //$results = FileEntry::where('application','Interest Auction Results')->get();
+        return view('admin.import.dtr');
+    }
+
+
 
     /** Setup Menu */
     public function showuser(){

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Dtr;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -214,6 +215,35 @@ class ImportController extends Controller
             flash()->info('Batch Not Found!');
             return redirect()->back()->withInput()->withErrors('Batch Not Found');
         }
+    }
+
+    public function import_dtr(Request $request){
+
+        $file = $request->file('attlog');
+        $filename = $file->getClientOriginalName();
+        $request->file('attlog')->move(base_path() . '/storage/app/dtr/',$filename);
+
+        if (($handle = fopen ( base_path() . '/storage/app/dtr/'.$filename, 'r' )) !== FALSE) {
+            while ( ($data = fgetcsv ( $handle, 1000, "\t" )) !== FALSE ) {
+                $attlog = new Dtr();
+                $attlog->operators = $data[0];
+                $attlog->work_day = $data[1];
+                $attlog->in_out = substr($data[1],11,8);
+                $attlog->save();
+            }
+            fclose ( $handle );
+
+            //$entry->update(['status'=>'Uploaded']);
+            //$records = $batch->recent_sales()->count();
+            //$this->closed_batch($records,$batch,$job_number);
+            //return redirect()->back();
+        } else {
+            //flash()->info('File Not Found');
+            //return redirect()->back()->withInput()->withErrors('File Not Found');
+        }
+
+        return "ji";
+
     }
 
     public function import_interest(ImportRequest $request){

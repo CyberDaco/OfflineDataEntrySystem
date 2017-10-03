@@ -159,6 +159,9 @@ Route::post('/admin/import/saturday_auction','ImportController@import_saturday_a
 Route::get('/admin/import/interest','AdminController@import_interest');
 Route::post('/admin/import/interest','ImportController@import_interest');
 
+Route::get('/admin/import/dtr','AdminController@import_dtr');
+Route::post('/admin/import/dtr','ImportController@import_dtr');
+
 /**
  * Report Controller
  */
