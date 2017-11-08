@@ -9,7 +9,6 @@ use App\Http\Requests;
 class HelpController extends Controller
 {
     public function help(){
-        //return "hello";
-        return view('errors.404');
+        return view('help.help');
     }
 }
