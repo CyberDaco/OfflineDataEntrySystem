@@ -37,7 +37,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default collapsed-box">
+            <div class="box box-primary collapsed-box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Live Auction Property Sites</h3>
 
@@ -66,7 +66,7 @@
         </div>
 
         <div class="col-md-12">
-            <div class="box box-default collapsed-box">
+            <div class="box box-primary collapsed-box">
                 <div class="box-header with-border">
                     <h3 class="box-title">Recent Sales Sites</h3>
 
@@ -86,9 +86,6 @@
             </div>
             <!-- /.box -->
         </div>
-
-
-
 
 
     @include('layouts.dataentry.footer')

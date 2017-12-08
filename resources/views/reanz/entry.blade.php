@@ -25,7 +25,8 @@
 @push('scripts')
 <script>
 $(document).ready(function(){
-    $("input[name='listing_id']").blur(function(){
+
+        $("input[name='listing_id']").blur(function(){
         $.get('/reanz/search/' + $("input[name='listing_id']").val(), function (data) {
             console.log(data);
             if (data[0]) $("input[name='property_address']").val(data[0]);
@@ -43,7 +44,9 @@ $(document).ready(function(){
             if (data[12]) $("input[name='second_agent_mobile']").val(data[12]);
             if (data[13]) $("input[name='list_date']").val(data[13]);
             if (data[14]) $("input[name='auction_date']").val(data[14]);
-            }); 
+            if (data[16]) $("input[name='city']").val(data[16]);
+            if (data[17]) $("input[name='site_area']").val(data[17]);
+        });
     });
 
     $("auction_date").inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/yyyy"});

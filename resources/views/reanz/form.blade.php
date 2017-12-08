@@ -51,7 +51,17 @@
             {!! Form::text('property_address', null,['class'=>'form-control input-sm', 'required']) !!}
         </div>
     </div>
-      
+
+    <div class="row">
+        <div class="col-sm-2 col-md-offset-1">
+            {!! Form::label('city','City',['class'=>'control-label pull-right']) !!}
+        </div>
+        <div class="col-sm-4 col-md-3">
+            {!! Form::text('city', null,['class'=>'form-control input-sm']) !!}
+        </div>
+    </div>
+
+
     <div class="hidden">
         {!! Form::label('unit_no','Unit No.',['class'=>'control-label col-md-3']) !!}
         <div class="col-md-6 custom">
@@ -85,10 +95,7 @@
         <div class="col-md-6 custom">
           {!! Form::text('suburb', null,['class'=>'form-control input-sm']) !!}
         </div>
-        {!! Form::label('city','City',['class'=>'control-label col-md-3']) !!}
-        <div class="col-md-6 custom">
-          {!! Form::text('city', null,['class'=>'form-control input-sm']) !!}
-        </div>
+
     </div>
     
     <div class="row">

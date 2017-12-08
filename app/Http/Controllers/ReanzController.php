@@ -106,7 +106,7 @@ class ReaNZController extends Controller
          //return \Response::json($result);
 
 
-        $crawler = Goutte::request('GET', 'http://www.realestate.co.nz/'.$id);
+        $crawler = Goutte::request('GET', 'http://classic.realestate.co.nz/'.$id);
         $crawler->filter('h2')->each(function ($node) {
             //dump($node->text());
         });
@@ -122,6 +122,9 @@ class ReaNZController extends Controller
         $land = $crawler->filterXpath('//li[@class="landArea"]')->count() ? trim(str_replace('Land','',str_replace(' ',' ',$crawler->filterXpath('//li[@class="landArea"]')->text()))) : '';
         $floor = $crawler->filterXpath('//li[@class="floorArea"]')->count() ? trim(str_replace('Floor','',str_replace(' ',' ',$crawler->filterXpath('//li[@class="floorArea"]')->text()))) : '';
         $auction_date = $crawler->filter('h6')->count() ? str_replace('Auction ','',$crawler->filter('h6')->text()) : '';
+
+        $city = "Sample City";
+        $site_area = trim(str_replace('Residential ',' ',$crawler->filter('h4')->eq(2)->text()));
 
         $agent_name01 = '';
         $agent_name02 = '';
@@ -197,7 +200,7 @@ class ReaNZController extends Controller
         }
 
 
-        $details = array($property_address,$property_id,$price,$agency,$bedroom,$bath,$car,$land,$floor,$agent_name01,$agent_mobile01,$agent_name02,$agent_mobile02,$listed_date,$auction_date,$agent_count);
+        $details = array($property_address,$property_id,$price,$agency,$bedroom,$bath,$car,$land,$floor,$agent_name01,$agent_mobile01,$agent_name02,$agent_mobile02,$listed_date,$auction_date,$agent_count,$city,$site_area);
         return \Response::json($details);
      }
 }

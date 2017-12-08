@@ -6,7 +6,7 @@
     <div class="col-xs-12">
       <div class="box">
         <div class="box-header">
-          <h3 class="box-title"><strong>{{ session('batch_details')->job_name.' '.$results->batch_date }}</strong></h3>
+          <h3 class="box-title"><strong>{{ session('batch_details')->job_name.' '.session('batch_details')->batch_date }}</strong></h3>
 
           <div class="box-tools">
             <div class="input-group input-group-sm" style="width: 150px;">
@@ -34,29 +34,34 @@
               <th>Car</th>
               <th class="text-center">Action</th>
             </tr>
-            @foreach ($results->recent_sales as $result)
-              <tr>
-                <td>{{ $result->state }}</td>
-                <td><a><strong>{{ $result->address }}</strong></a></td>
-                <td>{{ $result->property_type }}</td>
-                <td>{{ $result->sale_type }}</td>
-                <td class="text-right">{{ $result->sold_price }}</td>
-                <td class="text-center">{{ $result->contract_date }}</td>
-                <td>{{ $result->agency_name }}</td>
-                <td>{{ $result->bedroom }}</td>
-                <td>{{ $result->bathroom }}</td>
-                <td>{{ $result->car }}</td>
-                <td class="text-center">
-                  <a href="{{ url('/recent_sales/modify/'.$result->id) }}" class="btn btn-info btn-xs">Modify</a></button>
-                  <a class="btn btn-danger btn-xs delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $result->id }}">Delete</a>
-                </td>
-              </tr>
+            @foreach ($results as $result)
+
+              @foreach ($result->recent_sales as $row)
+                <tr>
+                  <td>{{ $row->state }}</td>
+                  <td><a><strong>{{ $row->address }}</strong></a></td>
+                  <td>{{ $row->property_type }}</td>
+                  <td>{{ $row->sale_type }}</td>
+                  <td class="text-right">{{ $row->sold_price }}</td>
+                  <td class="text-center">{{ $row->contract_date }}</td>
+                  <td>{{ $row->agency_name }}</td>
+                  <td>{{ $row->bedroom }}</td>
+                  <td>{{ $row->bathroom }}</td>
+                  <td>{{ $row->car }}</td>
+                  <td class="text-center">
+                    <a href="{{ url('/recent_sales/modify/'.$row->id) }}" class="btn btn-info btn-xs">Modify</a></button>
+                    <a class="btn btn-danger btn-xs delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $row->id }}">Delete</a>
+                  </td>
+                </tr>
+              @endforeach
             @endforeach
           </table>
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-          <strong><span>{{ count($results) != 0 ? count($results->recent_sales).' Record(s) Found' : '0 Record' }}</span></strong>
+
+
+
         </div>
       </div>
       <!-- /.box -->
