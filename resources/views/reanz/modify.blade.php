@@ -11,9 +11,9 @@
 
             {!! Form::model($record,array('role'=>'form','url'=>'/reanz/'.$record->id.'/update','action'=>'POST','class'=>'form-horizontal'))!!}
             @if(substr(session('batch_name'),13,-3) == 'S' || substr(session('batch_name'),13,-3) == 's' )
-                @include('reanz.form',['status'=>'E','site_area'=>'SALE'])
+                @include('reanz.form',['status'=>'E'])
             @elseif(substr(session('batch_name'),13,-3) == 'R' || substr(session('batch_name'),13,-3) == 'r')
-                @include('reanz.form',['status'=>'E','site_area'=>'RENT'])
+                @include('reanz.form',['status'=>'E'])
             @endif
             {!! Form::close() !!}
         </div>

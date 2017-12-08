@@ -39,7 +39,7 @@
             {!! Form::label('site_area','Site Area',['class'=>'control-label pull-right']) !!}
         </div>
         <div class="col-sm-2 col-md-2">
-            {!! Form::text('site_area', $site_area,['class'=>'form-control input-sm', 'readonly']) !!}
+            {!! Form::text('site_area', null ,['class'=>'form-control input-sm']) !!}
         </div>
     </div>
 

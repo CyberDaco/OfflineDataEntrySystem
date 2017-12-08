@@ -27,7 +27,7 @@ class ReanzRequest extends Request
             'listing_id' =>'required|numeric|unique:reanzs,listing_id',
             'property_id' => 'required|alpha_num',
             'list_date' => 'required|date_format:d/m/Y',
-            'site_area' => 'required|regex:/^[(SALE)(RENT)]+$/u',
+            'site_area' => 'required',
             'property_address' => 'required',
             'bedrooms' => 'numeric',
             'bathrooms' => 'numeric',
