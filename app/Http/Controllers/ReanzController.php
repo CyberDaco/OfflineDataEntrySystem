@@ -123,7 +123,11 @@ class ReaNZController extends Controller
         $floor = $crawler->filterXpath('//li[@class="floorArea"]')->count() ? trim(str_replace('Floor','',str_replace(' ',' ',$crawler->filterXpath('//li[@class="floorArea"]')->text()))) : '';
         $auction_date = $crawler->filter('h6')->count() ? str_replace('Auction ','',$crawler->filter('h6')->text()) : '';
 
-        $city = "Sample City";
+        $breadcrumb = trim($crawler->filterXpath('//li[@itemprop="itemListElement"]')->count());
+        $locality = $breadcrumb - 3;
+        $city_unfiltered = trim($crawler->filterXpath('//li[@itemprop="itemListElement"]')->eq($locality)->text());
+        $city = str_replace('>','',str_replace(' ','',$city_unfiltered));
+
         $site_area = trim(str_replace('Residential ',' ',$crawler->filter('h4')->eq(2)->text()));
 
         $agent_name01 = '';
