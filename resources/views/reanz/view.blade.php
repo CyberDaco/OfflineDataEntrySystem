@@ -26,7 +26,9 @@
                 <th>Listing Id</th>
                 <th>Property ID</th>
                 <th>List Date</th>
+                <th>Property Type</th>
                 <th>Property Address</th>
+                <th>City</th>
                 <th>Price Guide</th>
                 <th>Bed</th>
                 <th>Bath</th>
@@ -42,8 +44,10 @@
                 <tr>
                   <td>{{ $result->listing_id }}</td>
                   <td>{{ $result->property_id }}</td>
+                  <td>{{ $result->site_area }}</td>
                   <td>{{ $result->list_date }}</td>
                   <td>{{ $result->property_address }}</td>
+                  <td>{{ $result->city }}</td>
                   <td>{{ $result->price_guide }}</td>
                   <td>{{ $result->bedrooms }}</td>
                   <td>{{ $result->bathrooms }}</td>

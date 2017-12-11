@@ -126,7 +126,7 @@ class ReaNZController extends Controller
         $breadcrumb = trim($crawler->filterXpath('//li[@itemprop="itemListElement"]')->count());
         $locality = $breadcrumb - 3;
         $city_unfiltered = trim($crawler->filterXpath('//li[@itemprop="itemListElement"]')->eq($locality)->text());
-        $city = str_replace('>','',str_replace(' ','',$city_unfiltered));
+        $city = str_replace('>','',$city_unfiltered);
 
         $site_area = trim(str_replace('Residential ',' ',$crawler->filter('h4')->eq(2)->text()));
 
