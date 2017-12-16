@@ -109,7 +109,9 @@ class ReaNZController extends Controller
         $crawler = Goutte::request('GET', 'http://classic.realestate.co.nz/'.$id);
         $crawler->filter('h2')->each(function ($node) {
             //dump($node->text());
-        });
+        })
+
+
 
         $listed_date = str_replace('\n\r','',str_replace(' ','',$crawler->filter('h4')->text()));
         $property_address = $crawler->filterXpath('//h3')->count() ? $crawler->filterXpath('//span[@itemprop="streetAddress"]')->text().$crawler->filterXpath('//span[@itemprop="addressLocality"]')->text() : '';
