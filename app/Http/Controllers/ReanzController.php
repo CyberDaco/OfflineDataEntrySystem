@@ -107,9 +107,9 @@ class ReaNZController extends Controller
 
 
         $crawler = Goutte::request('GET', 'http://classic.realestate.co.nz/'.$id);
-        $crawler->filter('h2')->each(function ($node) {
+        //$crawler->filter('h2')->each(function ($node) {
             //dump($node->text());
-        })
+        //})
 
 
 
