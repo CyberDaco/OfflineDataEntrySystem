@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 
 use App\Batch;
+use App\Publication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FindRequest;
@@ -50,13 +51,29 @@ class ExportController extends Controller
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
-        if($batch->job_name == 'RAY WHITE DOUBLE BAY' ){
-            $state = 'vic';
-        }elseif($batch->job_name == 'OZ HOUSE PRICE' ){
-            $state = 'nsw';
-        }
+        $state = Publication::where('pub_name',$batch->job_name)->first();
 
-        $filename = $batch->export_date_filename.'_'.$state.'_ccc';
+
+        //if($batch->job_name == 'RAY WHITE DOUBLE BAY' ){
+        //   $state = 'nsw';
+        //}elseif($batch->job_name == 'OZ HOUSE PRICE' ){
+        //$state = 'nsw';
+        //}elseif($batch->job_name == 'Marshall White Brighton'){
+        //    $state = 'vic';
+        //}
+
+
+
+        //Ray White double Bay
+        //Marshall White Brighton
+        //Coutts Real Estate
+        //Ray White Centenary
+        //PRD Agnes Water
+        //Peter Fitzgerald
+        //Raine & Horne Macleay Island
+
+
+        $filename = $batch->export_date_filename.'_'.strtolower($state->state).'_ccc';
 
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {

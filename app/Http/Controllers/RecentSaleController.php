@@ -45,7 +45,14 @@ class RecentSaleController extends Controller
     public function view()
     {
         $this->current_batch = Batch::where('job_name',session('batch_details')->job_name)->get();
+
+
         $results = $this->current_batch->load('recent_sales');
+
+
+        //$results = $this->current_batch->load(array($this->relationship=>function($query){
+        //    $query->where('batch_name',session('batch_name'));
+        //}));
 
         return view($this->folder.'/view',compact('results'));
     }
