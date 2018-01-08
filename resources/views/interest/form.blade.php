@@ -51,7 +51,7 @@
             {!! Form::text('street_name',null,['class'=>'form-control input-sm', 'required', 'pattern'=>'[aA-zZ0-9\s\'\.\-/&/]{1,25}', 'required']) !!}
         </div>
         <div class="col-sm-2 col-md-2">
-            {!! Form::select('street_ext', $street_extension, null, ['class'=>'form-control input-sm']) !!}
+            {!! Form::select('street_ext', $street_extension, null, ['placeholder' => '--','class'=>'form-control input-sm']) !!}
         </div>
         <div class="col-sm-2 col-md-1">
             {!! Form::text('street_direction',null,['class'=>'form-control input-sm', 'pattern'=>'(North|South|East|West)']) !!}
