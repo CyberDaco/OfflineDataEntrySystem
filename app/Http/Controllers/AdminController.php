@@ -139,7 +139,7 @@ class AdminController extends Controller
         $job_date = $request->job_date ? Carbon::createFromFormat('d/m/Y', $request->job_date) : Carbon::now();
         $job_name = $request->job_name ? $request->job_name : Publication::where('application','Interest Auction Results')->first()->pub_name;
 
-        $batch = Batch::where('job_name','Interest Auction Results')
+        $batch = Batch::where('job_name',$request->job_name)
             ->where('batch_date',$job_date->format('Y-m-d'))
             ->get()->first();
 

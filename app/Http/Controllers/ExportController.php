@@ -32,7 +32,12 @@ class ExportController extends Controller
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
-        $filename = $batch->export_date_filename.'_nz_interest';
+        if($batch->job_name == 'Interest Auction Results'){
+            $filename = $batch->export_date_filename.'_nz_interest';
+        } else {
+            $filename = $batch->export_date_filename.'_nz_'.strtolower(str_replace(' ','',$batch->job_name));
+        }
+
 
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
