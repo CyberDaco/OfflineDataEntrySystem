@@ -20,6 +20,13 @@
 @push('scripts')
 <script>
 $(document).ready(function(){
+    
+    if($('h3').text().substring(0,2) == 'BC'){
+        $("select[name='sale_type']").val("Normal Sale");
+    } else {
+
+    }
+
     $("input[name='listing_id']").blur(function(){
         $.get('/interest/search/' + $("input[name='listing_id']").val(), function (data) {
             console.log(data);
