@@ -11,6 +11,7 @@ use App\Batch;
 use App\Events\EntryRecordCreated;
 use App\UserProfile;
 use App\AUPostCode;
+use App\Publication;
 
 
 class RecentSaleController extends Controller
@@ -47,12 +48,16 @@ class RecentSaleController extends Controller
         $this->current_batch = Batch::where('job_name',session('batch_details')->job_name)->get();
 
 
-        $results = $this->current_batch->load('recent_sales');
 
+        $view_last = Publication::where('pub_name',session('batch_details')->job_name)->first();
 
-        //$results = $this->current_batch->load(array($this->relationship=>function($query){
-        //    $query->where('batch_name',session('batch_name'));
-        //}));
+        if($view_last == 'YES'){
+            $results = $this->current_batch->load('recent_sales');
+        } else {
+            $results = $this->current_batch->load(array($this->relationship=>function($query){
+                $query->where('batch_name',session('batch_name'));
+            }));
+        }
 
         return view($this->folder.'/view',compact('results'));
     }

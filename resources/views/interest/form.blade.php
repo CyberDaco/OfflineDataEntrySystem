@@ -86,7 +86,7 @@
             {!! Form::label('sale_type','Sale Type',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-4 col-md-3">
-            {!! Form::select('sale_type', ['Sold at Auction'=>'Sold At Auction','Sold Prior To Auction'=>'Sold Prior To Auction','Sold After Auction'=>'Sold After Auction' ], null, ['class'=>'form-control input-sm']) !!}
+            {!! Form::select('sale_type', ['Sold at Auction'=>'Sold At Auction','Sold Prior To Auction'=>'Sold Prior To Auction','Sold After Auction'=>'Sold After Auction','Normal Sale'=>'Normal Sale'], null, ['class'=>'form-control input-sm']) !!}
         </div>
     </div>
 
@@ -129,29 +129,29 @@
     </div>
 
 
-
-    <!--
-    <div class="row">
-        <div class="col-sm-2 col-md-offset-2">
-            {!! Form::label('settlement_date','Settle Date',['class'=>'control-label']) !!}
-        </div>
-        <div class="col-sm-3 col-md-2">
-            {!! Form::text('settlement_date',null,['class'=>'form-control input-sm', 'pattern'=>'', 'readonly']) !!}
-        </div>
-    </div>
-
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
             {!! Form::label('bedroom','Bed',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-2 col-md-1">
-            {!! Form::text('bedroom',null,['class'=>"form-control input-sm", 'pattern'=>'[0-9-]{1,2}', 'readonly']) !!}
+            {!! Form::text('bedroom',null,['class'=>"form-control input-sm", 'pattern'=>'[0-9-]{1,2}']) !!}
         </div>
     </div>
 
+    <!--
+
     <div class="row">
         <div class="col-sm-2 col-md-offset-2">
-            {!! Form::label('bath','Bath',['class'=>'control-label']) !!}
+            {!! Form::label('settlement_date','Settle Date',['class'=>'control-label']) !!}
+            </div>
+            <div class="col-sm-3 col-md-2">
+                {!! Form::text('settlement_date',null,['class'=>'form-control input-sm', 'pattern'=>'', 'readonly']) !!}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2 col-md-offset-2">
+                {!! Form::label('bath','Bath',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-2 col-md-1">
             {!! Form::text('bathroom',null,['class'=>'form-control input-sm', 'pattern'=>'[0-9]{1,2}', 'readonly']) !!}

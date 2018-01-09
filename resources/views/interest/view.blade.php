@@ -28,6 +28,7 @@
               <th class="text-right">Sold Price</th>
               <th class="text-center">Contract Date</th>
               <th>Agency Name</th>
+              <th>Bed</th>
               <th class="text-center">Action</th>
             </tr>
             @foreach ($results->interests as $result)
@@ -38,6 +39,7 @@
                 <td class="text-right">{{ $result->sold_price }}</td>
                 <td class="text-center">{{ $result->contract_date }}</td>
                 <td>{{ $result->agency_name }}</td>
+                <td>{{ $result->bedroom }}</td>
                 <td class="text-center">
                   <a href="{{ url('/interest/modify/'.$result->id) }}" class="btn btn-info btn-xs">Modify</a></button>
                   <a class="btn btn-danger btn-xs delete" data-toggle="modal" data-target="#delete-modal" data-id="{{ $result->id }}">Delete</a>
