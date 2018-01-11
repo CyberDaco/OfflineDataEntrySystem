@@ -134,7 +134,7 @@
             {!! Form::label('bedroom','Bed',['class'=>'control-label']) !!}
         </div>
         <div class="col-sm-2 col-md-1">
-            {!! Form::text('bedroom',null,['class'=>"form-control input-sm", 'pattern'=>'[0-9-]{1,2}', 'readonly']) !!}
+            {!! Form::text('bedroom',null,['class'=>"form-control input-sm", 'pattern'=>'[0-9-]{1,2}']) !!}
         </div>
     </div>
 
