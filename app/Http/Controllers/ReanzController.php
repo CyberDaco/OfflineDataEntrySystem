@@ -196,9 +196,14 @@ class ReaNZController extends Controller
         $listed_date = substr($listed_date,strpos($listed_date,'Listed')+ 6);
         $listed_date = Carbon::createFromFormat('dMY', $listed_date)->format('d/m/Y');
 
+
         if($auction_date){
             $auction_date = substr($auction_date,strpos($auction_date,'day')+ 4);
             $auction_date = Carbon::createFromFormat('d M g:ia', $auction_date)->format('d/m/Y');
+        }
+
+        if($price == 'Tender'){
+            $auction_date = '';
         }
 
         if($price == 'Auction' || $price == 'Deadline Treaty' || $price == 'Tender'){
