@@ -47,8 +47,6 @@ class RecentSaleController extends Controller
     {
         $this->current_batch = Batch::where('job_name',session('batch_details')->job_name)->get();
 
-
-
         $view_last = Publication::where('pub_name',session('batch_details')->job_name)->first();
 
         if($view_last == 'YES'){

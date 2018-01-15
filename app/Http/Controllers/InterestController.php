@@ -44,7 +44,7 @@ class InterestController extends Controller
         $results = $this->current_batch->load(array($this->relationship=>function($query){
             $query->where('batch_name',session('batch_name'));
         })); 
-        
+
         return view($this->folder.'/view',compact('results'));
     }
     
