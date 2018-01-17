@@ -130,6 +130,7 @@ class ExportController extends Controller
                 'first_agent_phone','first_agent_direct','second_agent_name','second_agent_id','second_agent_mobile','second_agent_phone',
                 'second_agent_direct','photo_count')
             ->where('batch_id',$batch->id)
+            ->orderBy('listing_id','asc')
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 

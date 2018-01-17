@@ -35,7 +35,10 @@
               <th class="text-center">Action</th>
             </tr>
             @foreach ($results as $result)
-
+              <tr>
+                <th colspan="10">{{ $result->batch_date }}</th>
+                <th>{{ count($result->recent_sales) }} records</th>
+              </tr>
               @foreach ($result->recent_sales as $row)
 
                 <tr>
@@ -60,7 +63,7 @@
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-          <strong><span>{{ count($results) != 0 ? $result[0].' Record(s) Found' : '0 Record' }}</span></strong>
+
         </div>
       </div>
       <!-- /.box -->

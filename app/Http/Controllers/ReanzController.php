@@ -111,8 +111,6 @@ class ReaNZController extends Controller
             //dump($node->text());
         //})
 
-
-
         $listed_date = str_replace('\n\r','',str_replace(' ','',$crawler->filter('h4')->text()));
         $property_address = $crawler->filterXpath('//h3')->count() ? $crawler->filterXpath('//span[@itemprop="streetAddress"]')->text().$crawler->filterXpath('//span[@itemprop="addressLocality"]')->text() : '';
         $property_id = $crawler->filter('h4 > b')->count() ? str_replace('Listing # ','',$crawler->filter('h4 > b')->text()) : '';
@@ -185,7 +183,6 @@ class ReaNZController extends Controller
             if (strlen($agent_mobile02) <= 8){
                 $agent_mobile02 = '';
             }
-
 
         }
 
