@@ -35,7 +35,7 @@
                     <h3 class="box-title"><strong>{{ $job_name.' '.$job_date->format('d/m/Y') }}</strong></h3>
                     <div class="box-tools">
                         <div>
-                            <a href="{{ url('/admin/export/'.$url.'/'.$batch->id).'/csv' }}"><button class="btn btn-success btn-md addbutton pull-right"><i class="fa fa-download" aria-hidden="true"></i>  Export to CSV</button></a>
+                            <!-- <a href="{{ url('/admin/export/'.$url.'/'.$batch->id).'/csv' }}"><button class="btn btn-success btn-md addbutton pull-right"><i class="fa fa-download" aria-hidden="true"></i>  Export to CSV</button></a> -->
                             <a href="{{ url('/admin/export/'.$url.'/'.$batch->id.'/xlsx') }}"><button class="btn btn-success btn-md addbutton pull-right"><i class="fa fa-file-excel-o" aria-hidden="true"></i>  Export to Excel</button></a>
                         </div>
                     </div>

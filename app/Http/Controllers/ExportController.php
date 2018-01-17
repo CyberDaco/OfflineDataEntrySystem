@@ -111,6 +111,7 @@ class ExportController extends Controller
 
         event(new ExportJob($batch,$data));
 
+
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A1',false,false);
