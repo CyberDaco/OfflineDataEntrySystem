@@ -46,17 +46,17 @@ class RecentSaleController extends Controller
     public function view()
     {
         $view_last = Publication::where('pub_name',session('batch_details')->job_name)->first();
-        $this->current_batch = Batch::where('job_name',session('batch_details')->job_name)->orderBy('id','desc')->get();
 
         if($view_last->invalid == 'YES'){
+            $this->current_batch = Batch::where('job_name',session('batch_details')->job_name)->orderBy('id','desc')->get();
             $results = $this->current_batch->load('recent_sales');
         } else {
-            $results = $this->current_batch->load(array($this->relationship=>function($query){
-                $query->where('id',session('batch_details')->id);
-            }));
+            $this->current_batch = Batch::where('id',session('batch_details')->id)
+                ->orderBy('id','desc')->get();
 
-            return $results;
-            return session('batch_details')->id;
+            $results = $this->current_batch->load(array('recent_sales'=>function($query){
+                $query->where('batch_name',session('batch_name'));
+            }));
         }
 
         return view($this->folder.'/view',compact('results'));
