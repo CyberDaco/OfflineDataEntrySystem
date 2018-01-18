@@ -25,9 +25,9 @@ class ExportController extends Controller
     public function export_interest(Batch $batch, $file_type){
         DB::connection()->setFetchMode(PDO::FETCH_NUM);
         $data = DB::table('recent_sales')
-            ->select('unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
+            ->select('state','unit_no','street_no','street_name','street_ext','street_direction','suburb','post_code',
                 'property_type','sale_type','sold_price',DB::raw('DATE_FORMAT(contract_date,"%d/%m/%Y") as contract_date'),
-                'settlement_date','agency_name','bedroom','bathroom')
+                'settlement_date','agency_name','bedroom','bathroom','car')
             ->where('batch_id',$batch->id)
             ->get();
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
@@ -38,10 +38,13 @@ class ExportController extends Controller
             $filename = $batch->export_date_filename.'_nz_'.strtolower(str_replace(' ','',$batch->job_name));
         }
 
-
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
-                $sheet->fromArray($data,"'",'A1',false,false);
+                $sheet->fromArray($data,"'",'A2',false,false);
+
+                $sheet->row(1,array('STATE','UNIT NUMBER','STREET NUMBER','STREET NAME','STREET EXTENSION','STREET EXT SUF',
+                    'SUBURB','PCODE','PROP TYPE','SALE TYPE','SOLD PRICE','CONTRACT DATE','SETTLEMENT DATE','AGENCY',
+                    'BED','BATH','CAR'));
             });
         })->export($file_type);
     }
@@ -58,26 +61,6 @@ class ExportController extends Controller
         DB::connection()->setFetchMode(PDO::FETCH_CLASS);
 
         $state = Publication::where('pub_name',$batch->job_name)->first();
-
-
-        //if($batch->job_name == 'RAY WHITE DOUBLE BAY' ){
-        //   $state = 'nsw';
-        //}elseif($batch->job_name == 'OZ HOUSE PRICE' ){
-        //$state = 'nsw';
-        //}elseif($batch->job_name == 'Marshall White Brighton'){
-        //    $state = 'vic';
-        //}
-
-
-
-        //Ray White double Bay
-        //Marshall White Brighton
-        //Coutts Real Estate
-        //Ray White Centenary
-        //PRD Agnes Water
-        //Peter Fitzgerald
-        //Raine & Horne Macleay Island
-
 
         $filename = $batch->export_date_filename.'_'.strtolower($state->state).'_ccc';
 
