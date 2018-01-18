@@ -41,10 +41,9 @@ class ExportController extends Controller
         Excel::create($filename, function($excel) use($data) {
             $excel->sheet('Sheet1', function($sheet) use($data) {
                 $sheet->fromArray($data,"'",'A2',false,false);
-
                 $sheet->row(1,array('STATE','UNIT NUMBER','STREET NUMBER','STREET NAME','STREET EXTENSION','STREET EXT SUF',
-                    'SUBURB','PCODE','PROP TYPE','SALE TYPE','SOLD PRICE','CONTRACT DATE','SETTLEMENT DATE','AGENCY',
-                    'BED','BATH','CAR'));
+                        'SUBURB','PCODE','PROP TYPE','SALE TYPE','SOLD PRICE','CONTRACT DATE','SETTLEMENT DATE','AGENCY',
+                        'BED','BATH','CAR'));
             });
         })->export($file_type);
     }
